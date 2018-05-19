@@ -1,0 +1,16 @@
+= Security-First {project-name} ({project-version}) image:https://travis-ci.org/daggerok/security-first.svg?branch=master["Build Status", link={github_url}]
+Maksim Kostromin <daggerok@gmail.com>
+{docdatetime}
+:doctype: book
+:toc: left
+:toclevels: 4
+:source-highlighter: prettify
+:numbered:
+:icons: font
+:hide-uri-scheme:
+:revnumber: {project-version}
+:example-caption!:
+
+include::./introduction.adoc[]
+include::./project-skeleton.adoc[]
+include::./monolith-app.adoc[]

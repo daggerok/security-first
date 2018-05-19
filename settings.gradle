@@ -1,0 +1,4 @@
+rootProject.name = 'security-first'
+include ':modules:props'
+include ':docs'
+include ':apps:monolith-app'

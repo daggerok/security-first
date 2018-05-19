@@ -1,0 +1,55 @@
+buildscript {
+  ext {
+    appVersion = '0.0.1'
+    appGroup = 'com.github.daggerok'
+
+    kotlinVersion = '1.2.41'
+    javaVersion = JavaVersion.VERSION_1_8
+    springBootVersion = '2.0.2.RELEASE'
+
+    junit4Version = '4.12'
+    junitPlatformVersion = '1.0.2'
+    junitJupiterVersion = '5.2.0'
+  }
+  apply from: "$rootDir/gradle/repositories.gradle"
+  dependencies { classpath "org.junit.platform:junit-platform-gradle-plugin:$junitPlatformVersion" }
+}
+
+plugins {
+  id 'idea'
+  id 'maven'
+  id 'eclipse'
+
+  id 'org.jetbrains.kotlin.jvm' version '1.2.41' apply false
+  id 'org.jetbrains.kotlin.plugin.spring' version '1.2.41' apply false
+
+  id 'cn.bestwu.propdeps' version '0.0.10' apply false
+  id 'cn.bestwu.propdeps-idea' version '0.0.10' apply false
+  id 'cn.bestwu.propdeps-maven' version '0.0.10' apply false
+  id 'cn.bestwu.propdeps-eclipse' version '0.0.10' apply false
+
+  id 'org.springframework.boot' version '2.0.2.RELEASE' apply false
+  id 'io.spring.dependency-management' version '1.0.5.RELEASE' apply false
+
+  id 'org.asciidoctor.convert' version '1.5.7' apply false
+  id 'org.ajoberstar.git-publish' version '0.3.0' apply false
+}
+
+apply from: "$rootDir/gradle/allprojects.gradle"
+
+idea {
+  module {
+    downloadSources = true
+  }
+}
+
+eclipse {
+  classpath {
+    downloadSources = true
+  }
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = "4.7"
+  distributionType = "ALL"
+}

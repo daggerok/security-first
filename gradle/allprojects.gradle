@@ -1,0 +1,21 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+allprojects {
+
+  apply plugin: 'base'
+  group project.appGroup
+  version project.appVersion
+
+  defaultTasks 'clean', 'build'
+
+  clean.doFirst {
+    Os.isFamily(Os.FAMILY_WINDOWS) ? [] : [project.file('.gradle')] + [
+        project.buildDir,
+        project.file('out'),
+        project.file('bin'),
+        project.file('build'),
+        project.file('target'),
+        project.file("$rootDir/dist"),
+    ].each { delete it }
+  }
+}
