@@ -1,0 +1,15 @@
+subprojects {
+
+  apply from: "$rootDir/gradle/subprojects.gradle"
+
+  apply plugin: 'org.springframework.boot'
+
+  dependencies {
+    compile('org.springframework.boot:spring-boot-starter')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+  }
+
+  bootJar {
+    launchScript()
+  }
+}

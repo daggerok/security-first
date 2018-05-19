@@ -1,0 +1,26 @@
+service:
+- docker
+env:
+  global:
+  - TERM=dumb
+  - secure: LIzHJMGwxYTvBxETUFvth+iFS5g9eToTyNm4Eimy9l0IWIx59EXDzWs0ceR6qcm1wyvYKNRq8n7wqOv1P9qLCGAf+XpLS9CZvVw+bi5rMReGkhpdkzrN8Hyme95nI9/W5baTz6b/p09u2yFWdIr9G5DaYJZCn2oiEwINAYB/WGYH1EACmWnPfmoxgT3fIg9gf4ItWtwA0os7d6eMZxjLDeVYx87l3EIc+FvS+3RBdd1lpKa1RE1D9qB7LQSN9wm8tqx/++zGDzhiSl/fkVNVS3cWsaaPMsGcOGKlM6DLOCpe7EyEIOEPgnSqLGhfp/0W8wK2yTnAE/soF0WakQsreBbwCBW2a5aAZHCSxOQtQiNJk3UyJA2tCwnfezXeDn5MBUwg00r6tCyyV5ML4vCU3530sqtv4KjfvJvvAuErJOAgFh2aT6dt5wHFx9NonykhDdiyf1mdhRVxo2fwQVShusZexg5jKC8uNbEoBlR6kxKA3KajxlYyd31F5gBW9JlNBZx5sL1G/6LX4OJfnJsr8/Asqz/aYoSdttvWe48Xzt0cK5MXrwJ9kzaJlxI8Ih3ihcOAX2k93G2tNk/HXXHLfiYB9TPZLVPsPGEnmiVs1TLbB+9XR+jqc3gg7lea97yMw6bMKp/DM45MfoUEp+nGnHk0y2dha5YOek9mHxCZkWM=
+language: java
+jdk: oraclejdk8
+addons:
+  apt:
+    update: true
+install: true
+before_install:
+- sudo apt install -y --no-install-recommends curl python-pip >/dev/null 2>&1
+- sudo pip install httpie >/dev/null 2>&1
+- source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
+- stop_any 80 8000 8080
+script:
+#- bash gradlew asciidoctor # travis / gradle, wtf?!
+- export root=$(pwd)
+- bash gradlew -S
+- stop_any 80 8000 8080
+cache:
+  directories:
+  - "$HOME/.m2"
+  - "$HOME/.gradle"

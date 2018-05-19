@@ -1,0 +1,67 @@
+apply plugin: 'java'
+apply plugin: 'org.jetbrains.kotlin.jvm'
+apply plugin: 'org.jetbrains.kotlin.plugin.spring'
+apply plugin: 'org.junit.platform.gradle.plugin'
+apply plugin: 'io.spring.dependency-management'
+
+targetCompatibility = sourceCompatibility = project.javaVersion
+
+def projectIncremental = true
+def projectFreeCompileArgs = [
+    '-Xjsr305=strict',
+    '-java-parameters',
+    '-Xenable-jvm-default',
+]
+
+kapt {
+  useBuildCache = true
+}
+
+kotlin {
+  experimental {
+    coroutines = 'enable'
+  }
+}
+
+compileKotlin {
+  incremental = projectIncremental
+  kotlinOptions {
+    jvmTarget = project.javaVersion
+    freeCompilerArgs = projectFreeCompileArgs
+  }
+}
+
+compileTestKotlin {
+  incremental = projectIncremental
+  kotlinOptions {
+    jvmTarget = project.javaVersion
+    freeCompilerArgs = projectFreeCompileArgs
+  }
+}
+
+apply from: "$rootDir/gradle/repositories.gradle"
+
+jar.dependsOn(processResources)
+
+dependencies {
+  // kotlin
+  compile('com.fasterxml.jackson.module:jackson-module-kotlin:2.9.5')
+  compile("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+  // kotlin: testing
+  testCompile("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+  testCompile("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
+  // testing: junit4
+  testCompile("junit:junit:$junit4Version")
+  // testing: junit5
+  testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
+  testRuntime("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
+  testRuntime("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+  testRuntime("org.junit.vintage:junit-vintage-engine:$junitJupiterVersion")
+  testRuntime("org.junit.platform:junit-platform-launcher:$junitPlatformVersion")
+}
+
+dependencyManagement {
+  imports {
+    mavenBom "org.springframework.boot:spring-boot-dependencies:$springBootVersion"
+  }
+}

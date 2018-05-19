@@ -1,0 +1,15 @@
+= security-first
+
+//tag::content[]
+Yeah, same as mobile-first.
+Main goal of that project is learn spring-security topic from basis to advanced and share with people.
+Because no one enterprise application can't go live without security, I believe it should be done first.
+It's also can help you avoid situation when application architecture needs to be refactored to have possibility to apply security to it...
+I saw that many times...
+For some reason, big part of software developers community do not care about security
+from beginning or even to the end.
+I think main reason is because security hard topic. And it's really sad - many developers want doing it right,
+but for some reasons, people teaching them develop software missing security.
+//end::content[]
+
+So lets fix it, just link:https://daggerok.github.io/security-first[read documentation] :)

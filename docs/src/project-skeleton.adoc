@@ -1,0 +1,5 @@
+[[project-skeleton]]
+== Project Skeleton
+This is a starting point of our journey.
+I will try go from basis and add more and more functionality on next step.
+But first we need create link:https://github.com/daggerok/security-first/tree/01-project-skeleton[security-first project skeleton].
