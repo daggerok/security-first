@@ -1,4 +1,4 @@
-= security-first
+= security-first image:https://travis-ci.org/daggerok/security-first.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/security-first"]
 
 //tag::content[]
 Yeah, same as mobile-first.
