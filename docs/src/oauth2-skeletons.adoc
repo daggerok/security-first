@@ -1,0 +1,5 @@
+
+[[oauth2-skeletons]]
+== OAuth2 Skeletons
+
+Branch link:{github-url}/tree/aouth2-skeletons/[OAuth2 Skeletons] contains skeleton projects for OAuth2 JWT, Authorization and Resource servers.

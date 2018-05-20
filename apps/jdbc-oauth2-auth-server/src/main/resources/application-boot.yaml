@@ -1,0 +1,4 @@
+server.port: 8001
+spring:
+  application.name: jdbc-oauth2-auth-server
+  output.ansi.enabled: always

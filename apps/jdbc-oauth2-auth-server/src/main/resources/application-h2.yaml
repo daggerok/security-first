@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:h2:~/security-first;AUTO_SERVER=TRUE;MULTI_THREADED=TRUE;TRACE_LEVEL_FILE=3;Mode=MySQL;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE;AUTO_RECONNECT=TRUE
+    username: security-first
+    password: security-first
+    driver-class-name: org.h2.Driver
+    hikari:
+      connection-test-query: 'SELECT 1;'
+  h2.console.enabled: true
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+#    generate-ddl: true
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: create

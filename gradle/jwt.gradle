@@ -1,0 +1,5 @@
+dependencies {
+  compile("org.springframework.security:spring-security-jwt:$jwtVersion")
+  compile('org.springframework.boot:spring-boot-starter-security')
+  testCompile('org.springframework.security:spring-security-test')
+}

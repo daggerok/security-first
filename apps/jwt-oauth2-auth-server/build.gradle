@@ -1,0 +1,15 @@
+dependencies {
+
+  [
+      ':modules:props'
+
+  ].each {
+
+    compile(project(it))
+    compileOnly(project(it))
+    annotationProcessor(project(it))
+  }
+
+  compile('org.springframework.boot:spring-boot-starter-web')
+  apply(from: "$rootDir/gradle/jwt.gradle")
+}

@@ -1,3 +1,7 @@
+### App ###
+trace.db
+
+### Gradle / Maven ###
 .gradle/
 **/build/**
 **/target/**
