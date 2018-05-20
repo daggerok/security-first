@@ -6,6 +6,8 @@ buildscript {
     kotlinVersion = '1.2.41'
     javaVersion = JavaVersion.VERSION_1_8
     springBootVersion = '2.0.2.RELEASE'
+    oauth2Version = '2.3.3.RELEASE'
+    jwtVersion = '1.0.9.RELEASE'
     vavrVersion = '0.9.2'
 
     jqeuryVersion = '3.3.1-1'

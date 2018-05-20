@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: h2
+  datasource:
+    url: jdbc:h2:mem:gdpr;Mode=MySQL;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE;AUTO_RECONNECT=TRUE
+    username: h2
+    password: h2
+    driver-class-name: org.h2.Driver
+    hikari:
+      connection-test-query: 'SELECT 1;'
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create

@@ -14,3 +14,4 @@ Maksim Kostromin <daggerok@gmail.com>
 include::./introduction.adoc[]
 include::./project-skeleton.adoc[]
 include::./monolithic-apps.adoc[]
+include::./oauth2-skeletons.adoc[]
