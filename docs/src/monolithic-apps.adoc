@@ -1,6 +1,6 @@
 [[monolith-application]]
 == Monolith Application
-Into `monolithic-apps` branch I have added three monolith applications for future activities:
+link:{github_url}/tree/monolithic-apps[Into monolithic-apps branch] I have added three monolith applications for future activities:
 
 - link:[Webflux REST API]
 - link:[Webflux Thymeleaf Web app]
