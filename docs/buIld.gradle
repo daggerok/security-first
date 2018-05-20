@@ -30,7 +30,7 @@ asciidoctor {
       'source-highlighter': 'coderay',
       'toc-title': 'Table of Contents',
       'build-gradle': project.file('build.gradle'),
-      'github_url': 'https://github.com/daggerok/security-first'
+      'github-url': 'https://github.com/daggerok/security-first'
 
   logDocuments = true
   backends = ["html5"]

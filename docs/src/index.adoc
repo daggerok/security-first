@@ -1,4 +1,4 @@
-= Security-First {project-name} ({project-version}) image:https://travis-ci.org/daggerok/security-first.svg?branch=master["Build Status", link={github_url}]
+= Security-First {project-name} ({project-version}) image:https://travis-ci.org/daggerok/security-first.svg?branch=master["Build Status", link={github-url}]
 Maksim Kostromin <daggerok@gmail.com>
 {docdatetime}
 :doctype: book
