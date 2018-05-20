@@ -13,7 +13,7 @@ asciidoctor {
     include 'index.adoc'
   }
   outputDir = adocOutputDir
-      attributes toc: 'left',
+  attributes toc: 'left',
       doctype: 'book',
       ruby: 'erubis',
       encoding: 'utf-8',

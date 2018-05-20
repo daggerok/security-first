@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+
+<main layout:fragment="main">
+
+  <p>Hola!</p>
+
+  <div th:fragment="ololo" th:remove="tag">
+    <h1>ololo</h1>
+    <p>trololo</p>
+  </div>
+
+</main>

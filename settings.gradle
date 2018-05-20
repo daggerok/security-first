@@ -1,4 +1,6 @@
 rootProject.name = 'security-first'
+include ':apps:monolith-mvc-web-app'
+include ':apps:monolith-webflux-rest-app'
+include ':apps:monolith-webflux-web-app'
 include ':modules:props'
 include ':docs'
-include ':apps:monolith-app'

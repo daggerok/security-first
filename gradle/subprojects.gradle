@@ -44,6 +44,11 @@ apply from: "$rootDir/gradle/repositories.gradle"
 jar.dependsOn(processResources)
 
 dependencies {
+  // in java we trust
+  compileOnly('org.projectlombok:lombok')
+  annotationProcessor('org.projectlombok:lombok')
+  testCompileOnly('org.projectlombok:lombok')
+  testAnnotationProcessor('org.projectlombok:lombok')
   // kotlin
   compile('com.fasterxml.jackson.module:jackson-module-kotlin:2.9.5')
   compile("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")

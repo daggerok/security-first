@@ -1,0 +1,28 @@
+/* centred layout */
+.centred-container {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas: "centred-header" "centred-content" "centred-footer";
+}
+
+.centred-header {
+  grid-area: centred-header;
+}
+
+.centred-content {
+  grid-area: centred-content;
+  text-align: center;
+}
+
+.centred-footer {
+  grid-area: centred-footer;
+}
+
+/* add some space between content and browser border limits */
+.container-fluid {
+  padding: 2%;
+  width: 100%;
+}

@@ -14,6 +14,7 @@ before_install:
 - source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
 - stop_any 80 8000 8080
 script:
+- bash gradlew assemble >/dev/null || true
 - bash gradlew asciidoctor
 - export root=$(pwd)
 - bash gradlew -S

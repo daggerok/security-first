@@ -1,6 +1,13 @@
-.gradle
-build/
-target/
+.gradle/
+**/build/**
+**/target/**
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+**/out/**
 
 ### STS ###
 .apt_generated
@@ -10,13 +17,6 @@ target/
 .settings
 .springBeans
 .sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-/out/
 
 ### NetBeans ###
 /nbproject/private/
