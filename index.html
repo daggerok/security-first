@@ -610,19 +610,16 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.0.1,</span>
-<span id="revdate">2018-05-22 03:16:07 EEST</span>
+<span id="revdate">2018-05-22 13:44:39 EEST</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#introduction">1. Introduction</a></li>
-<li><a href="#project-skeleton">2. Project Skeleton</a></li>
-<li><a href="#monolith-application">3. Monolith Application</a></li>
-<li><a href="#oauth2-skeletons">4. OAuth2 Skeletons</a></li>
-<li><a href="#authorization-server">5. authorization server</a>
+<li><a href="#authorization-server">2. authorization server</a>
 <ul class="sectlevel2">
-<li><a href="#authorization-server-usage">5.1. authorization server usage</a></li>
-<li><a href="#authorization-server-implementation">5.2. authorization server implementation</a></li>
+<li><a href="#authorization-server-usage">2.1. authorization server usage</a></li>
+<li><a href="#authorization-server-implementation">2.2. authorization server implementation</a></li>
 </ul>
 </li>
 </ul>
@@ -647,60 +644,21 @@ but for some reasons, people teaching them develop software missing security.</p
 <p>Whole purpose of that project is learn and share such important topic in software development world.
 Any enterprise project cannot go live without security.
 So my personal lifestyle is always think about security first, and only after build any other application functionality.
-Spring Boot is amazing framework. It&#8217;s really one of the best java framework I know.
-So any good framework must provide developers some good security solution&#8230;&#8203;
-And spring does. Spring security provide us a lot of great features.
-It&#8217;s easiest security solutions I have ever seen and used in java.</p>
+Any good framework must provide developers some good security solution &#8230;&#8203;and spring does.
+<strong>Spring Soot</strong> is amazing framework. It&#8217;s really one of the best java framework I know.
+As part of it, <strong>Spring Security</strong> provide us a lot of great features - it&#8217;s easiest security solutions I have ever
+seen and used in java.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="project-skeleton"><a class="anchor" href="#project-skeleton"></a>2. Project Skeleton</h2>
+<h2 id="authorization-server"><a class="anchor" href="#authorization-server"></a>2. authorization server</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This is a starting point of our journey.
-I will try go from basis and add more and more functionality on next step.
-But first we need create <a href="https://github.com/daggerok/security-first/tree/project-skeleton/">security-first project skeleton</a>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="monolith-application"><a class="anchor" href="#monolith-application"></a>3. Monolith Application</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><a href="https://github.com/daggerok/security-first/tree/monolithic-apps">Into monolithic-apps branch</a> I have added three monolith applications for future activities:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="">Webflux REST API</a></p>
-</li>
-<li>
-<p><a href="">Webflux Thymeleaf Web app</a></p>
-</li>
-<li>
-<p><a href="">Web MVC Thymeleaf app</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="oauth2-skeletons"><a class="anchor" href="#oauth2-skeletons"></a>4. OAuth2 Skeletons</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Branch <a href="https://github.com/daggerok/security-first/tree/aouth2-skeletons/">OAuth2 Skeletons</a> contains skeleton projects for OAuth2 JWT, Authorization and Resource servers.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="authorization-server"><a class="anchor" href="#authorization-server"></a>5. authorization server</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><a href="https://github.com/daggerok/security-first/tree/jdbc-oauth2-auth-server/">building <code>jdbc-oauth2-auth-server</code></a></p>
+<p>so let&#8217;s start with <a href="https://github.com/daggerok/security-first/tree/jdbc-oauth2-auth-server/">building <code>jdbc-oauth2-auth-server</code></a></p>
 </div>
 <div class="sect2">
-<h3 id="authorization-server-usage"><a class="anchor" href="#authorization-server-usage"></a>5.1. authorization server usage</h3>
+<h3 id="authorization-server-usage"><a class="anchor" href="#authorization-server-usage"></a>2.1. authorization server usage</h3>
 <div class="listingblock">
 <div class="title">build, run and test</div>
 <div class="content">
@@ -722,7 +680,7 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 </div>
 </div>
 <div class="sect2">
-<h3 id="authorization-server-implementation"><a class="anchor" href="#authorization-server-implementation"></a>5.2. authorization server implementation</h3>
+<h3 id="authorization-server-implementation"><a class="anchor" href="#authorization-server-implementation"></a>2.2. authorization server implementation</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -730,8 +688,13 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>see <code>DataSourceConfig</code> and files <code>src/main/resources/application-h2.yaml</code>
-and <code>src/main/resources/schema-h2.sql</code></p>
+<p><code>DataSourceConfig</code></p>
+</li>
+<li>
+<p><code>src/main/resources/application-h2.yaml</code></p>
+</li>
+<li>
+<p><code>src/main/resources/schema-h2.sql</code></p>
 </li>
 </ol>
 </div>
@@ -755,7 +718,23 @@ and <code>src/main/resources/schema-h2.sql</code></p>
 <p>Now we ready to go with resource server&#8230;&#8203;</p>
 </div>
 <div class="paragraph">
+<p>links:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.spring.io/spring-security-oauth2-boot/docs/2.0.1.RELEASE/reference/html5/#common-application-properties">authorization server reference</a></p>
+</li>
+<li>
 <p><a href="http://www.baeldung.com/rest-api-spring-oauth2-angularjs">get some thought from here&#8230;&#8203;</a></p>
+</li>
+<li>
+<p><a href="https://github.com/sharmaritesh/oauth2-spring-boot-mongo">auth/resource servers some examples</a></p>
+</li>
+<li>
+<p><a href="https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide">Migration guide to spring-boot 2.x</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -764,7 +743,7 @@ and <code>src/main/resources/schema-h2.sql</code></p>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1<br>
-Last updated 2018-05-22 03:16:07 EEST
+Last updated 2018-05-22 13:44:39 EEST
 </div>
 </div>
 </body>
