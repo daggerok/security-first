@@ -1,4 +1,4 @@
-= Security-First {project-name} ({project-version}) image:https://travis-ci.org/daggerok/security-first.svg?branch=master["Build Status", link={github-url}]
+= Security First {project-name} ({project-version}) image:https://travis-ci.org/daggerok/security-first.svg?branch=master["Build Status", link={github-url}]
 Maksim Kostromin <daggerok@gmail.com>
 {docdatetime}
 :doctype: book
@@ -12,6 +12,4 @@ Maksim Kostromin <daggerok@gmail.com>
 :example-caption!:
 
 include::./introduction.adoc[]
-include::./project-skeleton.adoc[]
-include::./monolithic-apps.adoc[]
-include::./oauth2-skeletons.adoc[]
+include::../../apps/jdbc-oauth2-auth-server/README.adoc[]

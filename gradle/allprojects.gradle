@@ -16,6 +16,9 @@ allprojects {
         project.file('build'),
         project.file('target'),
         project.file("$rootDir/dist"),
+        project.file('security-first.mv.db'),
+        project.file('security-first.lock.db'),
+        project.file('security-first.trace.db'),
     ].each { delete it }
   }
 }

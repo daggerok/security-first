@@ -1,0 +1,48 @@
+[[authorization-server]]
+== authorization server
+
+Let's start with link:{github-url}/tree/master/apps/jdbc-oauth2-auth-server/[building `jdbc-oauth2-auth-server`]
+
+[[authorization-server-usage]]
+=== authorization server usage
+
+.build, run and test
+[source,bash]
+----
+./gradlew clean :apps:jd-o-a-s:bootRun
+http -a clientPassword:secret --form post :8001/oauth/token grant_type=password username=usr password=pwd
+----
+
+.output
+[source,json]
+----
+{
+    "access_token": "53af6890-21bc-444e-800b-e93bef1e1e7d",
+    "expires_in": 43199,
+    "refresh_token": "e1bcb2b4-1a7e-4727-b807-8c9790de7cca",
+    "scope": "read",
+    "token_type": "bearer"
+}
+----
+
+[[authorization-server-implementation]]
+=== authorization server implementation
+
+. provide database
+  .. `DataSourceConfig`
+  .. `src/main/resources/application-h2.yaml`
+  .. `src/main/resources/schema-h2.sql`
+. provide UserDetailsService (mocked in our case for simplicity: `JdbcUserDetailsService`)
+. after you have UserDetailsService, you can create `AuthenticationManagerConfig`
+. finally you can conigure `JdbcOauth2AuthServerConfig`
+. and of course, do not forget about password encoder: `PasswordEncoderConfig`
+
+---
+Now we ready to go with resource server...
+
+links:
+
+- link:https://docs.spring.io/spring-security-oauth2-boot/docs/2.0.1.RELEASE/reference/html5/#common-application-properties[authorization server reference]
+- link:http://www.baeldung.com/rest-api-spring-oauth2-angularjs[get some thought from here...]
+- link:https://github.com/sharmaritesh/oauth2-spring-boot-mongo[auth/resource servers some examples]
+- link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide[Migration guide to spring-boot 2.x]

@@ -12,4 +12,4 @@ I think main reason is because security hard topic. And it's really sad - many d
 but for some reasons, people teaching them develop software missing security.
 //end::content[]
 
-So lets fix it, just link:https://daggerok.github.io/security-first[read documentation] :)
+So lets fix it! link:https://daggerok.github.io/security-first[Read project reference] :)

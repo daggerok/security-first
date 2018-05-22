@@ -1,3 +1,4 @@
 spring.profiles.include:
   - boot
   - h2
+  - security

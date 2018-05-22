@@ -12,5 +12,5 @@ dependencies {
 
   compile('org.springframework.boot:spring-boot-starter-web')
   apply(from: "$rootDir/gradle/h2-jdbc.gradle")
-  //apply(from: "$rootDir/gradle/oauth2.gradle")
+  apply(from: "$rootDir/gradle/oauth2.gradle")
 }

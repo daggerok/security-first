@@ -1,0 +1,8 @@
+security:
+  ignored:
+  - '/css/**'
+  - '/js/**'
+  - '/favicon.ico'
+  - '/webjars/**'
+  - '/h2-console/**'
+logging.level.org.springframework.security: 'INFO'

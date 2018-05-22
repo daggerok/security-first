@@ -7,7 +7,7 @@ include::../../README.adoc[tags=content,indent=0]
 Whole purpose of that project is learn and share such important topic in software development world.
 Any enterprise project cannot go live without security.
 So my personal lifestyle is always think about security first, and only after build any other application functionality.
-Spring Boot is amazing framework. It's really one of the best java framework I know.
-So any good framework must provide developers some good security solution...
-And spring does. Spring security provide us a lot of great features.
-It's easiest security solutions I have ever seen and used in java.
+Any good framework must provide developers some good security solution ...and spring does.
+**Spring Soot** is amazing framework. It's really one of the best java framework I know.
+As part of it, **Spring Security** provide us a lot of great features - it's easiest security solutions I have ever
+seen and used in java.
