@@ -610,7 +610,7 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.0.1,</span>
-<span id="revdate">2018-05-20 22:29:34 EEST</span>
+<span id="revdate">2018-05-22 03:16:07 EEST</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -619,6 +619,12 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#project-skeleton">2. Project Skeleton</a></li>
 <li><a href="#monolith-application">3. Monolith Application</a></li>
 <li><a href="#oauth2-skeletons">4. OAuth2 Skeletons</a></li>
+<li><a href="#authorization-server">5. authorization server</a>
+<ul class="sectlevel2">
+<li><a href="#authorization-server-usage">5.1. authorization server usage</a></li>
+<li><a href="#authorization-server-implementation">5.2. authorization server implementation</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -687,11 +693,75 @@ But first we need create <a href="https://github.com/daggerok/security-first/tre
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="authorization-server"><a class="anchor" href="#authorization-server"></a>5. authorization server</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://github.com/daggerok/security-first/tree/jdbc-oauth2-auth-server/">building <code>jdbc-oauth2-auth-server</code></a></p>
+</div>
+<div class="sect2">
+<h3 id="authorization-server-usage"><a class="anchor" href="#authorization-server-usage"></a>5.1. authorization server usage</h3>
+<div class="listingblock">
+<div class="title">build, run and test</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">./gradlew clean :apps:j-o-a-s:bootRun
+http -a clientPassword:secret --form post :8001/oauth/token grant_type=password username=usr password=pwd</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">output</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">access_token</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">53af6890-21bc-444e-800b-e93bef1e1e7d</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">expires_in</span><span class="delimiter">&quot;</span></span>: <span class="integer">43199</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">refresh_token</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">e1bcb2b4-1a7e-4727-b807-8c9790de7cca</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">scope</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">read</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">token_type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">bearer</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="authorization-server-implementation"><a class="anchor" href="#authorization-server-implementation"></a>5.2. authorization server implementation</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>provide database</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>see <code>DataSourceConfig</code> and files <code>src/main/resources/application-h2.yaml</code>
+and <code>src/main/resources/schema-h2.sql</code></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>provide UserDetailsService (mocked in our case for simplicity: <code>JdbcUserDetailsService</code>)</p>
+</li>
+<li>
+<p>after you have UserDetailsService, you can create <code>AuthenticationManagerConfig</code></p>
+</li>
+<li>
+<p>finally you can conigure <code>JdbcOauth2AuthServerConfig</code></p>
+</li>
+<li>
+<p>and of course, do not forget about password encoder: <code>PasswordEncoderConfig</code></p>
+</li>
+</ol>
+</div>
+<hr>
+<div class="paragraph">
+<p>Now we ready to go with resource server&#8230;&#8203;</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1<br>
-Last updated 2018-05-20 22:29:34 EEST
+Last updated 2018-05-22 03:16:07 EEST
 </div>
 </div>
 </body>
