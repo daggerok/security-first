@@ -688,17 +688,17 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><a href="./provide-database">provide database</a></p>
+<p><a href="./#provide-database">provide database</a></p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p><code>DataSourceConfig</code></p>
+<p><a href="./#DataSourceConfig"><code>DataSourceConfig</code></a></p>
 </li>
 <li>
-<p><code>src/main/resources/application-h2.yaml</code></p>
+<p><a href="./#application-h2.yaml"><code>src/main/resources/application-h2.yaml</code></a></p>
 </li>
 <li>
-<p><code>src/main/resources/schema-h2.sql</code></p>
+<p><a href="./#schema-h2.sql"><code>src/main/resources/schema-h2.sql</code></a></p>
 </li>
 </ol>
 </div>
@@ -719,7 +719,7 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 </div>
 <div class="sect3">
 <h4 id="provide-database"><a class="anchor" href="#provide-database"></a>2.2.1. provide database</h4>
-<div class="listingblock">
+<div id="application-h2.yaml" class="listingblock">
 <div class="title">application-h2.yaml</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
@@ -734,7 +734,7 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 <span class="key">logging.level.org.springframework.jdbc</span>: <span class="string"><span class="content">'DEBUG'</span></span></code></pre>
 </div>
 </div>
-<div class="listingblock">
+<div id="DataSourceConfig" class="listingblock">
 <div class="title">application-h2.yaml</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">  <span class="annotation">@Bean</span>
@@ -751,7 +751,7 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
   }</code></pre>
 </div>
 </div>
-<div class="listingblock">
+<div id="schema-h2.sql" class="listingblock">
 <div class="title">schema-h2.sql</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="sql"><span class="class">drop</span> <span class="type">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> oauth_client_details;
