@@ -837,7 +837,27 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 <div id="JdbcUserDetailsService" class="listingblock">
 <div class="title">JdbcUserDetailsService</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Service</span>
+<span class="annotation">@RequiredArgsConstructor</span>
+<span class="type">class</span> <span class="class">JdbcUserDetailsService</span> <span class="directive">implements</span> UserDetailsService {
+
+  <span class="directive">final</span> PasswordEncoder encoder;
+  <span class="directive">final</span> JdbcTemplate jdbcTemplate;
+
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> UserDetails loadUserByUsername(<span class="predefined-type">String</span> username) <span class="directive">throws</span> UsernameNotFoundException {
+    <span class="keyword">return</span> User
+        .withUsername(<span class="string"><span class="delimiter">&quot;</span><span class="content">usr</span><span class="delimiter">&quot;</span></span>)
+        <span class="comment">//.password(&quot;pwd&quot;)</span>
+        .password(<span class="predefined-constant">null</span> == encoder ? <span class="string"><span class="delimiter">&quot;</span><span class="content">{noop}pwd</span><span class="delimiter">&quot;</span></span> : encoder.encode(<span class="string"><span class="delimiter">&quot;</span><span class="content">pwd</span><span class="delimiter">&quot;</span></span>))
+        .disabled(<span class="predefined-constant">false</span>)
+        .accountExpired(<span class="predefined-constant">false</span>)
+        .accountLocked(<span class="predefined-constant">false</span>)
+        .credentialsExpired(<span class="predefined-constant">false</span>)
+        .authorities(<span class="string"><span class="delimiter">&quot;</span><span class="content">USER</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">ADMIN</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">ROLE_USER</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">ROLE_ADMIN</span><span class="delimiter">&quot;</span></span>)
+        .build();
+  }
+}</code></pre>
 </div>
 </div>
 </div>
