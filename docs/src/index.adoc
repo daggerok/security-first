@@ -23,4 +23,7 @@ Any good framework must provide developers some good security solution ...and sp
 As part of it, **Spring Security** provide us a lot of great features - it's easiest security solutions I have ever
 seen and used in java.
 
+== JDBC
+
 include::../../apps/jdbc-oauth2-auth-server/README.adoc[]
+include::../../apps/jdbc-oauth2-resource-server/README.adoc[]

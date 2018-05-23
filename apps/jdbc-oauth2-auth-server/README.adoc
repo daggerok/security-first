@@ -1,5 +1,7 @@
 
-== JDBC
+////
+jdbc-oauth2-auth-server README.adoc
+////
 
 === authorization server
 
@@ -24,7 +26,7 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 }
 ----
 
-=== authorization server implementation
+=== implementation
 
 . link:./#provide-database[provide database]
   .. link:./#DataSourceConfig[`DataSourceConfig`]
@@ -100,20 +102,6 @@ include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServ
 ----
 include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServerApplication.java[tags=password-encoder]
 ----
-
-=== resource server
-
-Now we ready to go with link:{github-url}/tree/master/apps/jdbc-oauth2-auth-server/[building `jdbc-oauth2-resource-server`]
-
-.build, run and test
-[source,bash]
-----
-./gradlew clean :apps:jd-o-r-s:bootRun
-----
-
-=== resource server implementation
-
-TODO
 
 ---
 links:

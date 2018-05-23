@@ -59,8 +59,8 @@ gitPublish {
 }
 
 gitPublishPush.dependsOn asciidoctor
-gitPublishPush.shouldRunAfter clean, asciidoctor, build
+gitPublishPush.shouldRunAfter clean, asciidoctor
 
-task docs(dependsOn: [clean, gitPublishPush]) {
+task docs(dependsOn: gitPublishPush) {
   shouldRunAfter(clean, asciidoctor)
 }
