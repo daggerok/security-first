@@ -612,7 +612,7 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.0.1,</span>
-<span id="revdate">2018-05-23 22:39:58 EEST</span>
+<span id="revdate">2018-05-23 23:45:50 EEST</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -621,7 +621,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#jdbc">2. JDBC</a>
 <ul class="sectlevel2">
 <li><a href="#authorization-server">2.1. authorization server</a></li>
-<li><a href="#authorization-server-implementation">2.2. authorization server implementation</a>
+<li><a href="#implementation">2.2. implementation</a>
 <ul class="sectlevel3">
 <li><a href="#provide-database">2.2.1. provide database</a></li>
 <li><a href="#jdbc-user-details-service">2.2.2. jdbc user details service</a></li>
@@ -631,7 +631,11 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </li>
 <li><a href="#resource-server">2.3. resource server</a></li>
-<li><a href="#resource-server-implementation">2.4. resource server implementation</a></li>
+<li><a href="#implementation-2">2.4. implementation</a>
+<ul class="sectlevel3">
+<li><a href="#remote-token-services">2.4.1. remote token services</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -692,7 +696,7 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 </div>
 </div>
 <div class="sect2">
-<h3 id="authorization-server-implementation"><a class="anchor" href="#authorization-server-implementation"></a>2.2. authorization server implementation</h3>
+<h3 id="implementation"><a class="anchor" href="#implementation"></a>2.2. implementation</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -960,25 +964,6 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
   }</code></pre>
 </div>
 </div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="resource-server"><a class="anchor" href="#resource-server"></a>2.3. resource server</h3>
-<div class="paragraph">
-<p>Now we ready to go with <a href="https://github.com/daggerok/security-first/tree/master/apps/jdbc-oauth2-auth-server/">building <code>jdbc-oauth2-resource-server</code></a></p>
-</div>
-<div class="listingblock">
-<div class="title">build, run and test</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">./gradlew clean :apps:jd-o-r-s:bootRun</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="resource-server-implementation"><a class="anchor" href="#resource-server-implementation"></a>2.4. resource server implementation</h3>
-<div class="paragraph">
-<p>TODO</p>
-</div>
 <hr>
 <div class="paragraph">
 <p>links:</p>
@@ -1001,12 +986,44 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="resource-server"><a class="anchor" href="#resource-server"></a>2.3. resource server</h3>
+<div class="paragraph">
+<p>Now we ready to go with <a href="https://github.com/daggerok/security-first/tree/master/apps/jdbc-oauth2-resource-server/">building <code>jdbc-oauth2-resource-server</code></a></p>
+</div>
+<div class="listingblock">
+<div class="title">build, run and test</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">./gradlew clean :apps:jd-o-r-s:bootRun</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="implementation-2"><a class="anchor" href="#implementation-2"></a>2.4. implementation</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>implement resource server <code>/check_token</code> remote token service endpoint: <a href="./#RemoteTokenServicesConfig"><code>RemoteTokenServicesConfig</code></a></p>
+</li>
+</ol>
+</div>
+<div class="sect3">
+<h4 id="remote-token-services"><a class="anchor" href="#remote-token-services"></a>2.4.1. remote token services</h4>
+<div id="RemoteTokenServicesConfig" class="listingblock">
+<div class="title">RemoteTokenServicesConfig</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in /Users/mak/Documents/code/test/spring/security-first/apps/jdbc-oauth2-resource-server/README.adoc - include::./src/main/java/com/github/daggerok/oauth2resourceserver/JdbcOauth2ResourceServerApplication.java[tags=remote-token-services-config]</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1<br>
-Last updated 2018-05-23 22:39:58 EEST
+Last updated 2018-05-23 23:45:50 EEST
 </div>
 </div>
 </body>
