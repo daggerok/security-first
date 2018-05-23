@@ -619,7 +619,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel1">
 <li><a href="#introduction">1. Introduction</a>
 <ul class="sectlevel2">
-<li><a href="#authorization-server-usage">1.1. authorization server usage</a></li>
+<li><a href="#authorization-server">1.1. authorization server</a></li>
 <li><a href="#authorization-server-implementation">1.2. authorization server implementation</a>
 <ul class="sectlevel3">
 <li><a href="#provide-database">1.2.1. provide database</a></li>
@@ -629,6 +629,8 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#password-encoder-config">1.2.5. password encoder config</a></li>
 </ul>
 </li>
+<li><a href="#resource-server">1.3. resource server</a></li>
+<li><a href="#resource-server-implementation">1.4. resource server implementation</a></li>
 </ul>
 </li>
 </ul>
@@ -657,13 +659,13 @@ Any good framework must provide developers some good security solution &#8230;&#
 <strong>Spring Soot</strong> is amazing framework. It&#8217;s really one of the best java framework I know.
 As part of it, <strong>Spring Security</strong> provide us a lot of great features - it&#8217;s easiest security solutions I have ever
 seen and used in java.
-== authorization server (JDBC)</p>
+== JDBC</p>
 </div>
+<div class="sect2">
+<h3 id="authorization-server"><a class="anchor" href="#authorization-server"></a>1.1. authorization server</h3>
 <div class="paragraph">
 <p>Let&#8217;s start with <a href="https://github.com/daggerok/security-first/tree/master/apps/jdbc-oauth2-auth-server/">building <code>jdbc-oauth2-auth-server</code></a></p>
 </div>
-<div class="sect2">
-<h3 id="authorization-server-usage"><a class="anchor" href="#authorization-server-usage"></a>1.1. authorization server usage</h3>
 <div class="listingblock">
 <div class="title">build, run and test</div>
 <div class="content">
@@ -953,10 +955,26 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
   }</code></pre>
 </div>
 </div>
-<hr>
-<div class="paragraph">
-<p>Now we ready to go with resource server&#8230;&#8203;</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="resource-server"><a class="anchor" href="#resource-server"></a>1.3. resource server</h3>
+<div class="paragraph">
+<p>Now we ready to go with <a href="https://github.com/daggerok/security-first/tree/master/apps/jdbc-oauth2-auth-server/">building <code>jdbc-oauth2-resource-server</code></a></p>
+</div>
+<div class="listingblock">
+<div class="title">build, run and test</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">./gradlew clean :apps:jd-o-r-s:bootRun</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="resource-server-implementation"><a class="anchor" href="#resource-server-implementation"></a>1.4. resource server implementation</h3>
+<div class="paragraph">
+<p>TODO</p>
+</div>
+<hr>
 <div class="paragraph">
 <p>links:</p>
 </div>
@@ -975,7 +993,6 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 <p><a href="https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide">Migration guide to spring-boot 2.x</a></p>
 </li>
 </ul>
-</div>
 </div>
 </div>
 </div>
