@@ -1012,7 +1012,16 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 <div id="RemoteTokenServicesConfig" class="listingblock">
 <div class="title">RemoteTokenServicesConfig</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">  <span class="annotation">@Bean</span>
+  <span class="annotation">@Primary</span>
+  <span class="directive">public</span> RemoteTokenServices tokenService() {
+      <span class="directive">final</span> RemoteTokenServices tokenService = <span class="keyword">new</span> RemoteTokenServices();
+      tokenService.setCheckTokenEndpointUrl(
+      <span class="string"><span class="delimiter">&quot;</span><span class="content">http://localhost:8080/spring-security-oauth-server/oauth/check_token</span><span class="delimiter">&quot;</span></span>);
+      tokenService.setClientId(<span class="string"><span class="delimiter">&quot;</span><span class="content">fooClientIdPassword</span><span class="delimiter">&quot;</span></span>);
+      tokenService.setClientSecret(<span class="string"><span class="delimiter">&quot;</span><span class="content">secret</span><span class="delimiter">&quot;</span></span>);
+      <span class="keyword">return</span> tokenService;
+  }</code></pre>
 </div>
 </div>
 </div>
