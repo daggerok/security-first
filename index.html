@@ -734,8 +734,7 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
     <span class="key">username</span>: <span class="string"><span class="content">security-first</span></span>
     <span class="key">password</span>: <span class="string"><span class="content">security-first</span></span>
     <span class="key">driver-class-name</span>: <span class="string"><span class="content">org.h2.Driver</span></span>
-    <span class="key">hikari</span>:
-      <span class="key">connection-test-query</span>: <span class="string"><span class="content">'SELECT 1;'</span></span>
+    <span class="key">hikari.connection-test-query</span>: <span class="string"><span class="content">'SELECT 1;'</span></span>
   <span class="key">h2.console.enabled</span>: <span class="string"><span class="content">true</span></span>
 <span class="key">logging.level.org.springframework.jdbc</span>: <span class="string"><span class="content">'DEBUG'</span></span></code></pre>
 </div>
