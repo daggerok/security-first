@@ -730,7 +730,7 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
   <span class="key">datasource</span>:
-    <span class="key">url</span>: <span class="string"><span class="content">jdbc:h2:file:./security-first;AUTO_SERVER=TRUE;MULTI_THREADED=TRUE;TRACE_LEVEL_FILE=3;MODE=MYSQL;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE;AUTO_RECONNECT=TRUE</span></span>
+    <span class="key">url</span>: <span class="string"><span class="content">jdbc:h2:file:./security-first;AUTO_SERVER=TRUE;MULTI_THREADED=TRUE;MODE=MYSQL;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE</span></span>
     <span class="key">username</span>: <span class="string"><span class="content">security-first</span></span>
     <span class="key">password</span>: <span class="string"><span class="content">security-first</span></span>
     <span class="key">driver-class-name</span>: <span class="string"><span class="content">org.h2.Driver</span></span>
