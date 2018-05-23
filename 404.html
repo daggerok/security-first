@@ -610,7 +610,7 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.0.1,</span>
-<span id="revdate">2018-05-22 13:48:21 EEST</span>
+<span id="revdate">2018-05-22 13:49:05 EEST</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -619,7 +619,11 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#authorization-server">2. authorization server</a>
 <ul class="sectlevel2">
 <li><a href="#authorization-server-usage">2.1. authorization server usage</a></li>
-<li><a href="#authorization-server-implementation">2.2. authorization server implementation</a></li>
+<li><a href="#authorization-server-implementation">2.2. authorization server implementation</a>
+<ul class="sectlevel3">
+<li><a href="#provide-database">2.2.1. provide database</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -684,7 +688,7 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>provide database</p>
+<p><a href="./provide-database">provide database</a></p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
@@ -713,6 +717,116 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 </li>
 </ol>
 </div>
+<div class="sect3">
+<h4 id="provide-database"><a class="anchor" href="#provide-database"></a>2.2.1. provide database</h4>
+<div class="listingblock">
+<div class="title">application-h2.yaml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">datasource</span>:
+    <span class="key">url</span>: <span class="string"><span class="content">jdbc:h2:file:./security-first;AUTO_SERVER=TRUE;MULTI_THREADED=TRUE;TRACE_LEVEL_FILE=3;MODE=MYSQL;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE;AUTO_RECONNECT=TRUE</span></span>
+    <span class="key">username</span>: <span class="string"><span class="content">security-first</span></span>
+    <span class="key">password</span>: <span class="string"><span class="content">security-first</span></span>
+    <span class="key">driver-class-name</span>: <span class="string"><span class="content">org.h2.Driver</span></span>
+    <span class="key">hikari</span>:
+      <span class="key">connection-test-query</span>: <span class="string"><span class="content">'SELECT 1;'</span></span>
+  <span class="key">h2.console.enabled</span>: <span class="string"><span class="content">true</span></span>
+<span class="key">logging.level.org.springframework.jdbc</span>: <span class="string"><span class="content">'DEBUG'</span></span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">application-h2.yaml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">  <span class="annotation">@Bean</span>
+  <span class="directive">public</span> DataSourceInitializer dataSourceInitializer(<span class="directive">final</span> <span class="predefined-type">DataSource</span> dataSource) {
+    <span class="directive">final</span> DataSourceInitializer initializer = <span class="keyword">new</span> DataSourceInitializer();
+    initializer.setDataSource(dataSource);
+    initializer.setDatabasePopulator(databasePopulator());
+    <span class="keyword">return</span> initializer;
+  }
+
+  <span class="directive">private</span> DatabasePopulator databasePopulator() {
+    <span class="directive">final</span> ClassPathResource schema = <span class="keyword">new</span> ClassPathResource(<span class="string"><span class="delimiter">&quot;</span><span class="content">/schema-h2.sql</span><span class="delimiter">&quot;</span></span>, DataSourceConfig.class.getClassLoader());
+    <span class="keyword">return</span> <span class="keyword">new</span> ResourceDatabasePopulator(<span class="predefined-constant">false</span>, <span class="predefined-constant">true</span>, UTF_8.displayName(), schema);
+  }</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">schema-h2.sql</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="sql"><span class="class">drop</span> <span class="type">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> oauth_client_details;
+<span class="class">create</span> <span class="type">table</span> oauth_client_details (
+  client_id <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>) <span class="directive">PRIMARY</span> <span class="type">KEY</span>,
+  resource_ids <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  client_secret <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  scope <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  authorized_grant_types <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  web_server_redirect_uri <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  authorities <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  access_token_validity <span class="predefined-type">INTEGER</span>,
+  refresh_token_validity <span class="predefined-type">INTEGER</span>,
+  additional_information <span class="predefined-type">VARCHAR</span>(<span class="integer">4096</span>),
+  autoapprove <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>)
+);
+
+<span class="class">drop</span> <span class="type">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> oauth_client_token;
+<span class="class">create</span> <span class="type">table</span> oauth_client_token (
+  token_id <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  token LONGVARBINARY,
+  authentication_id <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>) <span class="directive">PRIMARY</span> <span class="type">KEY</span>,
+  user_name <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  client_id <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>)
+);
+
+<span class="class">drop</span> <span class="type">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> oauth_access_token;
+<span class="class">create</span> <span class="type">table</span> oauth_access_token (
+  token_id <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  token LONGVARBINARY,
+  authentication_id <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>) <span class="directive">PRIMARY</span> <span class="type">KEY</span>,
+  user_name <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  client_id <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  authentication LONGVARBINARY,
+  refresh_token <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>)
+);
+
+<span class="class">drop</span> <span class="type">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> oauth_refresh_token;
+<span class="class">create</span> <span class="type">table</span> oauth_refresh_token (
+  token_id <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  token LONGVARBINARY,
+  authentication LONGVARBINARY
+);
+
+<span class="class">drop</span> <span class="type">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> oauth_code;
+<span class="class">create</span> <span class="type">table</span> oauth_code (
+  code <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>), authentication LONGVARBINARY
+);
+
+<span class="class">drop</span> <span class="type">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> oauth_approvals;
+<span class="class">create</span> <span class="type">table</span> oauth_approvals (
+    userId <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+    clientId <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+    scope <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+    status <span class="predefined-type">VARCHAR</span>(<span class="integer">10</span>),
+    expiresAt <span class="predefined-type">TIMESTAMP</span>,
+    lastModifiedAt <span class="predefined-type">TIMESTAMP</span>
+);
+
+<span class="class">drop</span> <span class="type">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> ClientDetails;
+<span class="class">create</span> <span class="type">table</span> ClientDetails (
+  appId <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>) <span class="directive">PRIMARY</span> <span class="type">KEY</span>,
+  resourceIds <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  appSecret <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  scope <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  grantTypes <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  redirectUrl <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  authorities <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>),
+  access_token_validity <span class="predefined-type">INTEGER</span>,
+  refresh_token_validity <span class="predefined-type">INTEGER</span>,
+  additionalInformation <span class="predefined-type">VARCHAR</span>(<span class="integer">4096</span>),
+  autoApproveScopes <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>)
+);</code></pre>
+</div>
+</div>
 <hr>
 <div class="paragraph">
 <p>Now we ready to go with resource server&#8230;&#8203;</p>
@@ -740,10 +854,11 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1<br>
-Last updated 2018-05-22 13:48:21 EEST
+Last updated 2018-05-22 13:49:05 EEST
 </div>
 </div>
 </body>
