@@ -617,17 +617,16 @@ table.CodeRay td.code>pre{padding:0}
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#introduction">1. Introduction</a></li>
-<li><a href="#authorization-server-jdbc">2. authorization server (JDBC)</a>
+<li><a href="#introduction">1. Introduction</a>
 <ul class="sectlevel2">
-<li><a href="#authorization-server-usage">2.1. authorization server usage</a></li>
-<li><a href="#authorization-server-implementation">2.2. authorization server implementation</a>
+<li><a href="#authorization-server-usage">1.1. authorization server usage</a></li>
+<li><a href="#authorization-server-implementation">1.2. authorization server implementation</a>
 <ul class="sectlevel3">
-<li><a href="#provide-database">2.2.1. provide database</a></li>
-<li><a href="#jdbc-user-details-service">2.2.2. jdbc user details service</a></li>
-<li><a href="#authentication-manager-config">2.2.3. authentication manager config</a></li>
-<li><a href="#jdbc-oauth2-auth-server-config">2.2.4. jdbc oauth2 auth server config</a></li>
-<li><a href="#password-encoder-config">2.2.5. password encoder config</a></li>
+<li><a href="#provide-database">1.2.1. provide database</a></li>
+<li><a href="#jdbc-user-details-service">1.2.2. jdbc user details service</a></li>
+<li><a href="#authentication-manager-config">1.2.3. authentication manager config</a></li>
+<li><a href="#jdbc-oauth2-auth-server-config">1.2.4. jdbc oauth2 auth server config</a></li>
+<li><a href="#password-encoder-config">1.2.5. password encoder config</a></li>
 </ul>
 </li>
 </ul>
@@ -658,18 +657,13 @@ Any good framework must provide developers some good security solution &#8230;&#
 <strong>Spring Soot</strong> is amazing framework. It&#8217;s really one of the best java framework I know.
 As part of it, <strong>Spring Security</strong> provide us a lot of great features - it&#8217;s easiest security solutions I have ever
 seen and used in java.
-[[authorization-server-(JDBC)]]</p>
+== authorization server (JDBC)</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="authorization-server-jdbc"><a class="anchor" href="#authorization-server-jdbc"></a>2. authorization server (JDBC)</h2>
-<div class="sectionbody">
 <div class="paragraph">
 <p>Let&#8217;s start with <a href="https://github.com/daggerok/security-first/tree/master/apps/jdbc-oauth2-auth-server/">building <code>jdbc-oauth2-auth-server</code></a></p>
 </div>
 <div class="sect2">
-<h3 id="authorization-server-usage"><a class="anchor" href="#authorization-server-usage"></a>2.1. authorization server usage</h3>
+<h3 id="authorization-server-usage"><a class="anchor" href="#authorization-server-usage"></a>1.1. authorization server usage</h3>
 <div class="listingblock">
 <div class="title">build, run and test</div>
 <div class="content">
@@ -691,7 +685,7 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 </div>
 </div>
 <div class="sect2">
-<h3 id="authorization-server-implementation"><a class="anchor" href="#authorization-server-implementation"></a>2.2. authorization server implementation</h3>
+<h3 id="authorization-server-implementation"><a class="anchor" href="#authorization-server-implementation"></a>1.2. authorization server implementation</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -725,7 +719,7 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 </ol>
 </div>
 <div class="sect3">
-<h4 id="provide-database"><a class="anchor" href="#provide-database"></a>2.2.1. provide database</h4>
+<h4 id="provide-database"><a class="anchor" href="#provide-database"></a>1.2.1. provide database</h4>
 <div id="application-h2.yaml" class="listingblock">
 <div class="title">application-h2.yaml</div>
 <div class="content">
@@ -835,7 +829,7 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 </div>
 </div>
 <div class="sect3">
-<h4 id="jdbc-user-details-service"><a class="anchor" href="#jdbc-user-details-service"></a>2.2.2. jdbc user details service</h4>
+<h4 id="jdbc-user-details-service"><a class="anchor" href="#jdbc-user-details-service"></a>1.2.2. jdbc user details service</h4>
 <div id="JdbcUserDetailsService" class="listingblock">
 <div class="title">JdbcUserDetailsService</div>
 <div class="content">
@@ -864,7 +858,7 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 </div>
 </div>
 <div class="sect3">
-<h4 id="authentication-manager-config"><a class="anchor" href="#authentication-manager-config"></a>2.2.3. authentication manager config</h4>
+<h4 id="authentication-manager-config"><a class="anchor" href="#authentication-manager-config"></a>1.2.3. authentication manager config</h4>
 <div id="AuthenticationManagerConfig" class="listingblock">
 <div class="title">AuthenticationManagerConfig</div>
 <div class="content">
@@ -889,7 +883,7 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 </div>
 </div>
 <div class="sect3">
-<h4 id="jdbc-oauth2-auth-server-config"><a class="anchor" href="#jdbc-oauth2-auth-server-config"></a>2.2.4. jdbc oauth2 auth server config</h4>
+<h4 id="jdbc-oauth2-auth-server-config"><a class="anchor" href="#jdbc-oauth2-auth-server-config"></a>1.2.4. jdbc oauth2 auth server config</h4>
 <div id="JdbcOauth2AuthServerConfig" class="listingblock">
 <div class="title">JdbcOauth2AuthServerConfig</div>
 <div class="content">
@@ -949,7 +943,7 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 </div>
 </div>
 <div class="sect3">
-<h4 id="password-encoder-config"><a class="anchor" href="#password-encoder-config"></a>2.2.5. password encoder config</h4>
+<h4 id="password-encoder-config"><a class="anchor" href="#password-encoder-config"></a>1.2.5. password encoder config</h4>
 <div id="PasswordEncoderConfig" class="listingblock">
 <div class="title">PasswordEncoderConfig</div>
 <div class="content">
