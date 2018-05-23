@@ -622,6 +622,10 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#authorization-server-implementation">2.2. authorization server implementation</a>
 <ul class="sectlevel3">
 <li><a href="#provide-database">2.2.1. provide database</a></li>
+<li><a href="#jdbc-user-details-service">2.2.2. jdbc user details service</a></li>
+<li><a href="#authentication-manager-config">2.2.3. authentication manager config</a></li>
+<li><a href="#jdbc-oauth2-auth-server-config">2.2.4. jdbc oauth2 auth server config</a></li>
+<li><a href="#password-encoder-config">2.2.5. password encoder config</a></li>
 </ul>
 </li>
 </ul>
@@ -704,16 +708,16 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 </div>
 </li>
 <li>
-<p>provide UserDetailsService (mocked in our case for simplicity: <code>JdbcUserDetailsService</code>)</p>
+<p><a href="./#JdbcUserDetailsService">provide UserDetailsService (mocked in our case for simplicity: <code>JdbcUserDetailsService</code>)</a></p>
 </li>
 <li>
-<p>after you have UserDetailsService, you can create <code>AuthenticationManagerConfig</code></p>
+<p><a href="./#AuthenticationManagerConfig">after you have UserDetailsService, you can create <code>AuthenticationManagerConfig</code></a></p>
 </li>
 <li>
-<p>finally you can conigure <code>JdbcOauth2AuthServerConfig</code></p>
+<p><a href="./#JdbcOauth2AuthServerConfig">finally you can conigure <code>JdbcOauth2AuthServerConfig</code></a></p>
 </li>
 <li>
-<p>and of course, do not forget about password encoder: <code>PasswordEncoderConfig</code></p>
+<p><a href="./#PasswordEncoderConfig">and of course, do not forget about password encoder: <code>PasswordEncoderConfig</code></a></p>
 </li>
 </ol>
 </div>
@@ -825,6 +829,112 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
   additionalInformation <span class="predefined-type">VARCHAR</span>(<span class="integer">4096</span>),
   autoApproveScopes <span class="predefined-type">VARCHAR</span>(<span class="integer">255</span>)
 );</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="jdbc-user-details-service"><a class="anchor" href="#jdbc-user-details-service"></a>2.2.2. jdbc user details service</h4>
+<div id="JdbcUserDetailsService" class="listingblock">
+<div class="title">JdbcUserDetailsService</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="authentication-manager-config"><a class="anchor" href="#authentication-manager-config"></a>2.2.3. authentication manager config</h4>
+<div id="AuthenticationManagerConfig" class="listingblock">
+<div class="title">AuthenticationManagerConfig</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Configuration</span>
+<span class="annotation">@RequiredArgsConstructor</span>
+<span class="type">class</span> <span class="class">AuthenticationManagerConfig</span> <span class="directive">extends</span> WebSecurityConfigurerAdapter {
+
+  <span class="directive">final</span> JdbcUserDetailsService userDetailsService;
+
+  <span class="annotation">@Override</span>
+  <span class="directive">protected</span> <span class="type">void</span> configure(AuthenticationManagerBuilder auth) <span class="directive">throws</span> <span class="exception">Exception</span> {
+    auth.userDetailsService(userDetailsService);
+  }
+
+  <span class="annotation">@Bean</span>
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> AuthenticationManager authenticationManagerBean() <span class="directive">throws</span> <span class="exception">Exception</span> {
+    <span class="keyword">return</span> <span class="local-variable">super</span>.authenticationManagerBean();
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="jdbc-oauth2-auth-server-config"><a class="anchor" href="#jdbc-oauth2-auth-server-config"></a>2.2.4. jdbc oauth2 auth server config</h4>
+<div id="JdbcOauth2AuthServerConfig" class="listingblock">
+<div class="title">JdbcOauth2AuthServerConfig</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Configuration</span>
+<span class="annotation">@RequiredArgsConstructor</span>
+<span class="annotation">@EnableAuthorizationServer</span>
+<span class="type">class</span> <span class="class">JdbcOauth2AuthServerConfig</span> <span class="directive">extends</span> AuthorizationServerConfigurerAdapter {
+
+  <span class="directive">final</span> <span class="predefined-type">DataSource</span> dataSource;
+  <span class="directive">final</span> PasswordEncoder encoder;
+  <span class="directive">final</span> AuthenticationManager authenticationManager;
+
+  <span class="annotation">@Bean</span>
+  <span class="directive">public</span> TokenStore tokenStore() {
+    <span class="keyword">return</span> <span class="keyword">new</span> JdbcTokenStore(dataSource);
+  }
+
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> <span class="type">void</span> configure(<span class="directive">final</span> ClientDetailsServiceConfigurer clients) <span class="directive">throws</span> <span class="exception">Exception</span> {
+    clients
+        .jdbc(dataSource)
+        .withClient(<span class="string"><span class="delimiter">&quot;</span><span class="content">clientId</span><span class="delimiter">&quot;</span></span>)
+          .authorizedGrantTypes(<span class="string"><span class="delimiter">&quot;</span><span class="content">implicit</span><span class="delimiter">&quot;</span></span>)
+          <span class="comment">//.secret(&quot;secret&quot;)</span>
+          .secret(<span class="predefined-constant">null</span> == encoder ? <span class="string"><span class="delimiter">&quot;</span><span class="content">{noop}secret</span><span class="delimiter">&quot;</span></span> : encoder.encode(<span class="string"><span class="delimiter">&quot;</span><span class="content">secret</span><span class="delimiter">&quot;</span></span>))
+          .scopes(<span class="string"><span class="delimiter">&quot;</span><span class="content">read</span><span class="delimiter">&quot;</span></span>)
+          .autoApprove(<span class="predefined-constant">true</span>)
+          .and()
+        .withClient(<span class="string"><span class="delimiter">&quot;</span><span class="content">clientPassword</span><span class="delimiter">&quot;</span></span>)
+          <span class="comment">//.secret(&quot;secret&quot;)</span>
+          .secret(<span class="predefined-constant">null</span> == encoder ? <span class="string"><span class="delimiter">&quot;</span><span class="content">{noop}secret</span><span class="delimiter">&quot;</span></span> : encoder.encode(<span class="string"><span class="delimiter">&quot;</span><span class="content">secret</span><span class="delimiter">&quot;</span></span>))
+          .scopes(<span class="string"><span class="delimiter">&quot;</span><span class="content">read</span><span class="delimiter">&quot;</span></span>)
+          .authorizedGrantTypes(
+              <span class="string"><span class="delimiter">&quot;</span><span class="content">authorization_code</span><span class="delimiter">&quot;</span></span>,
+              <span class="string"><span class="delimiter">&quot;</span><span class="content">refresh_token</span><span class="delimiter">&quot;</span></span>,
+              <span class="string"><span class="delimiter">&quot;</span><span class="content">password</span><span class="delimiter">&quot;</span></span>
+          )
+    ;
+  }
+
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> <span class="type">void</span> configure(AuthorizationServerEndpointsConfigurer endpoints) <span class="directive">throws</span> <span class="exception">Exception</span> {
+    endpoints
+        .tokenStore(tokenStore())
+        .authenticationManager(authenticationManager)
+    ;
+  }
+
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> <span class="type">void</span> configure(AuthorizationServerSecurityConfigurer oauthServer) {
+    oauthServer
+        .tokenKeyAccess(<span class="string"><span class="delimiter">&quot;</span><span class="content">permitAll()</span><span class="delimiter">&quot;</span></span>)
+        .checkTokenAccess(<span class="string"><span class="delimiter">&quot;</span><span class="content">isAuthenticated()</span><span class="delimiter">&quot;</span></span>);
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="password-encoder-config"><a class="anchor" href="#password-encoder-config"></a>2.2.5. password encoder config</h4>
+<div id="PasswordEncoderConfig" class="listingblock">
+<div class="title">PasswordEncoderConfig</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">  <span class="annotation">@Bean</span>
+  <span class="directive">public</span> PasswordEncoder encoder() {
+    <span class="keyword">return</span> PasswordEncoderFactories.createDelegatingPasswordEncoder();
+  }</code></pre>
 </div>
 </div>
 <hr>
