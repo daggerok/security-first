@@ -33,25 +33,25 @@ asciidoctor {
       'github-url': 'https://github.com/daggerok/security-first'
 
   logDocuments = true
-  backends = ["html5"]
-  //backends "pdf", "html5"
+  backends = ['html5']
+  //backends 'pdf', 'html5'
 }
 
 asciidoctor.doLast {
   def html5 = "$adocOutputDir/html5"
   project.file("$html5/404.html").text = project.file("$html5/index.html").text
-  project.file("$html5/.nojekyll").text = ""
+  project.file("$html5/.nojekyll").text = ''
 }
 
 gitPublish {
 
   repoUri = 'git@github.com:daggerok/security-first.git'
-  branch = "gh-pages"
+  branch = 'gh-pages'
 
   contents {
     from("$asciidoctor.outputDir/html5")
     from("$asciidoctor.sourceDir/static") {
-      into "."
+      into '.'
     }
   }
 
@@ -61,4 +61,6 @@ gitPublish {
 gitPublishPush.dependsOn asciidoctor
 gitPublishPush.shouldRunAfter clean, asciidoctor, build
 
-task docs(dependsOn: gitPublishPush)
+task docs(dependsOn: [clean, gitPublishPush]) {
+  shouldRunAfter(clean, asciidoctor)
+}

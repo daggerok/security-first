@@ -1,5 +1,4 @@
-security:
-  ignored:
+security.ignored:
   - '/css/**'
   - '/js/**'
   - '/favicon.ico'

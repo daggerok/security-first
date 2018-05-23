@@ -37,6 +37,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @Configuration
 class DataSourceConfig {
 
+  //tag::datasource-initializer[]
   @Bean
   public DataSourceInitializer dataSourceInitializer(final DataSource dataSource) {
     final DataSourceInitializer initializer = new DataSourceInitializer();
@@ -49,17 +50,20 @@ class DataSourceConfig {
     final ClassPathResource schema = new ClassPathResource("/schema-h2.sql", DataSourceConfig.class.getClassLoader());
     return new ResourceDatabasePopulator(false, true, UTF_8.displayName(), schema);
   }
+  //end::datasource-initializer[]
 }
 
 @Configuration
 class PasswordEncoderConfig {
-
+  //tag::password-encoder[]
   @Bean
   public PasswordEncoder encoder() {
     return PasswordEncoderFactories.createDelegatingPasswordEncoder();
   }
+  //end::password-encoder[]
 }
 
+//tag::jdbc-user-details-service[]
 @Service
 @RequiredArgsConstructor
 class JdbcUserDetailsService implements UserDetailsService {
@@ -81,7 +85,9 @@ class JdbcUserDetailsService implements UserDetailsService {
         .build();
   }
 }
+//end::jdbc-user-details-service[]
 
+//tag::authentication-manager-config[]
 @Configuration
 @RequiredArgsConstructor
 class AuthenticationManagerConfig extends WebSecurityConfigurerAdapter {
@@ -99,7 +105,9 @@ class AuthenticationManagerConfig extends WebSecurityConfigurerAdapter {
     return super.authenticationManagerBean();
   }
 }
+//end::authentication-manager-config[]
 
+//tag::jdbc-oauth2-auth-server-config[]
 @Configuration
 @RequiredArgsConstructor
 @EnableAuthorizationServer
@@ -152,6 +160,7 @@ class JdbcOauth2AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         .checkTokenAccess("isAuthenticated()");
   }
 }
+//end::jdbc-oauth2-auth-server-config[]
 
 @SpringBootApplication
 @Import({ PropsAutoConfiguration.class })

@@ -1,10 +1,9 @@
-[[authorization-server]]
-== authorization server
+
+== JDBC
+
+=== authorization server
 
 Let's start with link:{github-url}/tree/master/apps/jdbc-oauth2-auth-server/[building `jdbc-oauth2-auth-server`]
-
-[[authorization-server-usage]]
-=== authorization server usage
 
 .build, run and test
 [source,bash]
@@ -25,21 +24,98 @@ http -a clientPassword:secret --form post :8001/oauth/token grant_type=password 
 }
 ----
 
-[[authorization-server-implementation]]
 === authorization server implementation
 
-. provide database
-  .. `DataSourceConfig`
-  .. `src/main/resources/application-h2.yaml`
-  .. `src/main/resources/schema-h2.sql`
-. provide UserDetailsService (mocked in our case for simplicity: `JdbcUserDetailsService`)
-. after you have UserDetailsService, you can create `AuthenticationManagerConfig`
-. finally you can conigure `JdbcOauth2AuthServerConfig`
-. and of course, do not forget about password encoder: `PasswordEncoderConfig`
+. link:./#provide-database[provide database]
+  .. link:./#DataSourceConfig[`DataSourceConfig`]
+  .. link:./#application-h2.yaml[`src/main/resources/application-h2.yaml`]
+  .. link:./#schema-h2.sql[`src/main/resources/schema-h2.sql`]
+. provide UserDetailsService (mocked in our case for simplicity: link:./#JdbcUserDetailsService[`JdbcUserDetailsService`)]
+. after you have UserDetailsService, you can create link:./#AuthenticationManagerConfig[`AuthenticationManagerConfig`]
+. finally you can configure link:./#JdbcOauth2AuthServerConfig[`JdbcOauth2AuthServerConfig`]
+. and of course, do not forget about password encoder: link:./#PasswordEncoderConfig[`PasswordEncoderConfig`]
+
+==== provide database
+
+[[application-h2.yaml]]
+
+.application-h2.yaml
+[source,yaml]
+----
+include::./src/main/resources/application-h2.yaml[]
+----
+
+[[DataSourceConfig]]
+
+.application-h2.yaml
+[source,java]
+----
+include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServerApplication.java[tags=datasource-initializer]
+----
+
+[[schema-h2.sql]]
+
+.schema-h2.sql
+[source,sql]
+----
+include::./src/main/resources/schema-h2.sql[]
+----
+
+==== jdbc user details service
+
+[[JdbcUserDetailsService]]
+
+.JdbcUserDetailsService
+[source,java]
+----
+include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServerApplication.java[tags=jdbc-user-details-service]
+----
+
+==== authentication manager config
+
+[[AuthenticationManagerConfig]]
+
+.AuthenticationManagerConfig
+[source,java]
+----
+include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServerApplication.java[tags=authentication-manager-config]
+----
+
+==== jdbc oauth2 auth server config
+
+[[JdbcOauth2AuthServerConfig]]
+
+.JdbcOauth2AuthServerConfig
+[source,java]
+----
+include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServerApplication.java[tags=jdbc-oauth2-auth-server-config]
+----
+
+==== password encoder config
+
+[[PasswordEncoderConfig]]
+
+.PasswordEncoderConfig
+[source,java]
+----
+include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServerApplication.java[tags=password-encoder]
+----
+
+=== resource server
+
+Now we ready to go with link:{github-url}/tree/master/apps/jdbc-oauth2-auth-server/[building `jdbc-oauth2-resource-server`]
+
+.build, run and test
+[source,bash]
+----
+./gradlew clean :apps:jd-o-r-s:bootRun
+----
+
+=== resource server implementation
+
+TODO
 
 ---
-Now we ready to go with resource server...
-
 links:
 
 - link:https://docs.spring.io/spring-security-oauth2-boot/docs/2.0.1.RELEASE/reference/html5/#common-application-properties[authorization server reference]
