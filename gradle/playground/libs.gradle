@@ -1,0 +1,29 @@
+static Configuration cfg(final Project project, final String configName) {
+  try {
+    project.configurations.getByName(configName)
+  } catch (UnknownConfigurationException e) {
+    println("${e.localizedMessage} due to parse ${configName} configuration in ${project.name} project")
+    null
+  }
+}
+
+task libs {}
+
+plugins.withType(JavaPlugin) {
+  configurations.each { config ->
+    cfg(project, config.name)?.with {
+      if (config.isCanBeResolved()) {
+        Task task = tasks.create(name: config.name, type: Jar) {
+          appendix = "${config.name}Lib"
+          doFirst {
+            manifest {
+              attributes "Class-Path": config.files.collect { File file -> file.name }.join(" ")
+            }
+          }
+        }
+        libs.dependsOn(task)
+        task.shouldRunAfter(clean)
+      }
+    }
+  }
+}

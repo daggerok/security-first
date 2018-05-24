@@ -1,0 +1,44 @@
+task copyAll() // { shouldRunAfter(clean) }
+
+plugins.withType(JavaPlugin) {
+  configurations.each { config ->
+
+    def foundConfig = null
+    try { foundConfig = project.configurations.getByName(config.name) } catch (UnknownConfigurationException e) {}
+
+    if (null != foundConfig && foundConfig.isCanBeResolved()) {
+      Task task = tasks.create(name: "copyAll${foundConfig.name.capitalize()}", type: Copy) {
+        from foundConfig
+        into "$project.buildDir/libs/$foundConfig.name"
+      }
+      copyAll.dependsOn(task)
+      task.shouldRunAfter(clean)
+    }
+  }
+
+/*
+  [
+      "runtime",
+      "compile", "compileOnly", "annotationProcessor",
+      "testImplementation", "testCompileOnly", "testAnnotationProcessor",
+
+  ].each { String configName ->
+
+    def foundConfig = null
+    try {
+      foundConfig = configurations.getByName(configName)
+    } catch (UnknownConfigurationException e) {
+    }
+
+    if (null != foundConfig) {
+      Task task = tasks.create(name: "copyAll${configName.capitalize()}", type: Copy) {
+        //from project.configurations.getByName(configName)
+        from project.configurations["$configName"]
+        into "$project.buildDir/libs/$configName"
+      }
+      copyAll.dependsOn(task)
+      task.shouldRunAfter(clean)
+    }
+  }
+*/
+}

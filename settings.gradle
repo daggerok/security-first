@@ -10,5 +10,7 @@ include ':apps:monolith-webflux-rest-app'
 include ':apps:monolith-webflux-web-app'
 
 include ':modules:props'
+include ':modules:props1'
+include ':modules:props2'
 
 include ':docs'

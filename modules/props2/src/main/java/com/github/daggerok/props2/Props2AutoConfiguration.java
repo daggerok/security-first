@@ -1,7 +1,6 @@
-package com.github.daggerok.thymeleaf;
+package com.github.daggerok.props2;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PropsAutoConfiguration {
-}
+public class Props2AutoConfiguration { }

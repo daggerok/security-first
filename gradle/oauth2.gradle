@@ -1,7 +1,7 @@
 dependencies {
-  compile('org.springframework.boot:spring-boot-starter-security')
-  compile('org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.1.RELEASE')
-  compile("org.springframework.cloud:spring-cloud-starter-oauth2")
-  //compile("org.springframework.security.oauth:spring-security-oauth2")
-  testCompile('org.springframework.security:spring-security-test')
+  implementation 'org.springframework.boot:spring-boot-starter-security'
+  implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.1.RELEASE'
+  implementation 'org.springframework.cloud:spring-cloud-starter-oauth2'
+  //implementation 'org.springframework.security.oauth:spring-security-oauth2'
+  testImplementation 'org.springframework.security:spring-security-test'
 }

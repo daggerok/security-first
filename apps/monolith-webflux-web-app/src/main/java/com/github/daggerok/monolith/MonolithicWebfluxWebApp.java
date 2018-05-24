@@ -1,7 +1,7 @@
 package com.github.daggerok.monolith;
 
-import com.github.daggerok.thymeleaf.PropsAutoConfiguration;
-import com.github.daggerok.thymeleaf.config.AppProps;
+import com.github.daggerok.props.PropsAutoConfiguration;
+import com.github.daggerok.props.config.AppProps;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -56,7 +56,7 @@ class IndexPage {
 }
 
 @SpringBootApplication
-@Import({PropsAutoConfiguration.class})
+@Import({ PropsAutoConfiguration.class})
 public class MonolithicWebfluxWebApp {
 
   public static void main(String[] args) {

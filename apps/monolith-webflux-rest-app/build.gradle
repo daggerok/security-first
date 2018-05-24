@@ -5,15 +5,15 @@ dependencies {
 
   ].each {
 
-    compile(project(it))
-    compileOnly(project(it))
-    annotationProcessor(project(it))
+    implementation project(it)
+    compileOnly project(it)
+    annotationProcessor project(it)
   }
 
-  compile("io.vavr:vavr:$vavrVersion")
-  compile('org.springframework.boot:spring-boot-starter-webflux')
-  compile('com.fasterxml.jackson.module:jackson-module-kotlin')
-  testCompile('io.projectreactor:reactor-test')
-  //compile('org.springframework.boot:spring-boot-starter-security')
-  //testCompile('org.springframework.security:spring-security-test')
+  implementation "io.vavr:vavr:$vavrVersion"
+  implementation 'org.springframework.boot:spring-boot-starter-webflux'
+  implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+  testImplementation 'io.projectreactor:reactor-test'
+  //implementation 'org.springframework.boot:spring-boot-starter-security'
+  //testImplementation 'org.springframework.security:spring-security-test'
 }

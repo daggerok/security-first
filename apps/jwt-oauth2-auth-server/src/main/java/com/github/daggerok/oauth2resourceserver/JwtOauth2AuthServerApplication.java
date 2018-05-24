@@ -1,6 +1,6 @@
 package com.github.daggerok.oauth2resourceserver;
 
-import com.github.daggerok.thymeleaf.PropsAutoConfiguration;
+import com.github.daggerok.props.PropsAutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;

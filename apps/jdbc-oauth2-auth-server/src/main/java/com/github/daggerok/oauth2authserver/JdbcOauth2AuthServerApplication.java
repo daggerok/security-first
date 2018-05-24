@@ -1,6 +1,8 @@
 package com.github.daggerok.oauth2authserver;
 
-import com.github.daggerok.thymeleaf.PropsAutoConfiguration;
+import com.github.daggerok.props.PropsAutoConfiguration;
+import com.github.daggerok.props1.Props1AutoConfiguration;
+import com.github.daggerok.props2.Props2AutoConfiguration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -163,7 +165,11 @@ class JdbcOauth2AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 //end::jdbc-oauth2-auth-server-config[]
 
 @SpringBootApplication
-@Import({ PropsAutoConfiguration.class })
+@Import({
+    PropsAutoConfiguration.class,
+    Props1AutoConfiguration.class,
+    Props2AutoConfiguration.class,
+})
 public class JdbcOauth2AuthServerApplication {
 
   public static void main(String[] args) {

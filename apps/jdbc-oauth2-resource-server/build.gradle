@@ -1,16 +1,17 @@
 dependencies {
 
   [
-      ':modules:props'
+      ':modules:props',
+      ':modules:props1',
 
-  ].each {
+  ].each { String projectPath ->
 
-    compile(project(it))
-    compileOnly(project(it))
-    annotationProcessor(project(it))
+    implementation project(projectPath)
+    compileOnly project(projectPath)
+    annotationProcessor project(projectPath)
   }
 
-  compile('org.springframework.boot:spring-boot-starter-web')
-  apply(from: "$rootDir/gradle/h2-jdbc.gradle")
-  apply(from: "$rootDir/gradle/oauth2.gradle")
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  apply from: "$rootDir/gradle/h2-jdbc.gradle"
+  apply from: "$rootDir/gradle/oauth2.gradle"
 }

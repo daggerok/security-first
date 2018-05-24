@@ -1,8 +1,8 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
-allprojects {
-
-  apply from: "$rootDir/gradle/subprojects.gradle"
+allprojects { sp ->
+  apply from: "$rootDir/gradle/playground.gradle"
+  apply from: "$rootDir/gradle/spring-boot.gradle"
 
   plugins.withType(SpringBootPlugin) {
     bootJar {

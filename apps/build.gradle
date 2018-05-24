@@ -1,15 +1,12 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 subprojects {
+  apply from: "$rootDir/gradle/playground.gradle"
+  apply from: "$rootDir/gradle/spring-boot.gradle"
 
-  apply from: "$rootDir/gradle/subprojects.gradle"
-
-  apply plugin: 'org.springframework.boot'
-
-  dependencies {
-    compile('org.springframework.boot:spring-boot-starter')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-  }
-
-  bootJar {
-    launchScript()
+  plugins.withType(SpringBootPlugin) {
+    bootJar {
+      launchScript()
+    }
   }
 }

@@ -1,16 +1,28 @@
 dependencies {
 
   [
-      ':modules:props'
+      ':modules:props',
+      ':modules:props2',
 
   ].each {
-
-    compile(project(it))
-    compileOnly(project(it))
-    annotationProcessor(project(it))
+    implementation project(it)
+    compileOnly project(it)
+    annotationProcessor project(it)
   }
 
-  compile('org.springframework.boot:spring-boot-starter-web')
-  apply(from: "$rootDir/gradle/h2-jdbc.gradle")
-  apply(from: "$rootDir/gradle/oauth2.gradle")
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  apply from: "$rootDir/gradle/h2-jdbc.gradle"
+  apply from: "$rootDir/gradle/oauth2.gradle"
 }
+
+/*
+task libJar(type: Jar, dependsOn:[
+    ':modules:props:build',
+]) {
+  from files {
+    project(':modules:props').sourceSets.main.output.classesDir
+  }
+  //from files( { project(':processor').sourceSets.main.output.resourcesDir } )
+  baseName "lib-$project.name"
+}
+*/

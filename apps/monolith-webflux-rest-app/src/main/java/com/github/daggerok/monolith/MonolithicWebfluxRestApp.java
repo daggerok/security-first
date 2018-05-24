@@ -1,8 +1,8 @@
 package com.github.daggerok.monolith;
 
-import com.github.daggerok.thymeleaf.PropsAutoConfiguration;
-import com.github.daggerok.thymeleaf.config.AppProps;
-import com.github.daggerok.thymeleaf.config.User;
+import com.github.daggerok.props.PropsAutoConfiguration;
+import com.github.daggerok.props.config.AppProps;
+import com.github.daggerok.props.config.User;
 import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -23,7 +23,7 @@ import java.net.InetAddress;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.daggerok.thymeleaf.config.AppPropsKt.parseUsers;
+import static com.github.daggerok.props.config.AppPropsKt.parseUsers;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonMap;
@@ -92,7 +92,7 @@ class WebfluxConfig {
 }
 
 @SpringBootApplication
-@Import({PropsAutoConfiguration.class})
+@Import({ PropsAutoConfiguration.class})
 public class MonolithicWebfluxRestApp {
 
   public static void main(String[] args) {

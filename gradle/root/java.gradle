@@ -1,0 +1,31 @@
+allprojects {
+  apply plugin: 'java'
+
+  group = project.appGroup
+  version = project.appVersion
+  sourceCompatibility = targetCompatibility = "$javaVersion"
+
+  if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+      tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+      }
+    }
+  }
+
+  defaultTasks 'clean', 'build'
+
+  dependencies {
+    // In java we trust...
+    compile("io.vavr:vavr:$vavrVersion")
+    compileOnly("org.projectlombok:lombok:$lombokVersion")
+    testCompileOnly("org.projectlombok:lombok:$lombokVersion")
+    annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+    testAnnotationProcessor("org.projectlombok:lombok:$lombokVersion")
+    //compile("org.slf4j:slf4j-api:$slf4jVersion")
+    //compile("org.slf4j:jul-to-slf4j:$slf4jVersion")
+    //compile("org.slf4j:log4j-over-slf4j:$slf4jVersion")
+    //compile('ch.qos.logback:logback-classic:1.2.3')
+    ////compile "org.slf4j:slf4j-jdk14:$slf4jVersion")
+  }
+}

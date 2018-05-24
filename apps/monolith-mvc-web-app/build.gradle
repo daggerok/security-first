@@ -5,24 +5,24 @@ dependencies {
 
   ].each {
 
-    compile(project(it))
-    compileOnly(project(it))
-    annotationProcessor(project(it))
+    implementation project(it)
+    compileOnly project(it)
+    annotationProcessor project(it)
   }
 
-  compile("io.vavr:vavr:$vavrVersion")
-  compile("org.thymeleaf:thymeleaf-spring5")
-  compile("org.thymeleaf.extras:thymeleaf-extras-java8time")
-  compile("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
-  compile("org.springframework.boot:spring-boot-starter-web")
-  compile("org.springframework.boot:spring-boot-starter-thymeleaf")
-  compile('com.fasterxml.jackson.module:jackson-module-kotlin')
+  compile "io.vavr:vavr:$vavrVersion"
+  compile 'org.thymeleaf:thymeleaf-spring5'
+  compile 'org.thymeleaf.extras:thymeleaf-extras-java8time'
+  compile 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+  compile 'org.springframework.boot:spring-boot-starter-web'
+  compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+  compile 'com.fasterxml.jackson.module:jackson-module-kotlin'
 
-  compile("org.webjars:jquery:$jqeuryVersion")
-  compile("org.webjars:material-design-icons:$materialDesignIconsVersion")
-  compile("org.webjars:materializecss:$materializeCssVersion")
+  compile "org.webjars:jquery:$jqeuryVersion"
+  compile "org.webjars:material-design-icons:$materialDesignIconsVersion"
+  compile "org.webjars:materializecss:$materializeCssVersion"
 
-  testCompile('io.projectreactor:reactor-test')
-  //compile('org.springframework.boot:spring-boot-starter-security')
-  //testCompile('org.springframework.security:spring-security-test')
+  testImplementation 'io.projectreactor:reactor-test'
+  //implementation('org.springframework.boot:spring-boot-starter-security'
+  //testImplementation 'org.springframework.security:spring-security-test'
 }

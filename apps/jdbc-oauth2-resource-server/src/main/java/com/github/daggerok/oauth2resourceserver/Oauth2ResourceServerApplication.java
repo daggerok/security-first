@@ -1,6 +1,7 @@
 package com.github.daggerok.oauth2resourceserver;
 
-import com.github.daggerok.thymeleaf.PropsAutoConfiguration;
+import com.github.daggerok.props.PropsAutoConfiguration;
+import com.github.daggerok.props1.Props1AutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +27,10 @@ class RemoteTokenServicesConfig {
 }
 
 @SpringBootApplication
-@Import({ PropsAutoConfiguration.class })
+@Import({
+    PropsAutoConfiguration.class,
+    Props1AutoConfiguration.class,
+})
 public class Oauth2ResourceServerApplication {
 
   public static void main(String[] args) {

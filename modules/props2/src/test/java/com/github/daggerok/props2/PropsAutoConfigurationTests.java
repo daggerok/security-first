@@ -1,4 +1,4 @@
-package com.github.daggerok.thymeleaf;
+package com.github.daggerok.props2;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,12 +7,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
-    classes = PropsAutoConfiguration.class,
+    classes = Props2AutoConfiguration.class,
     webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
 public class PropsAutoConfigurationTests {
 
   @Test
-  public void contextLoads() {
-  }
+  public void contextLoads() { }
 }
