@@ -15,7 +15,7 @@ before_install:
 - sudo pip install httpie >/dev/null 2>&1
 - source <(curl -fsSL https://raw.github.com/daggerok/bash-functions/master/main.bash)
 - stop_any 80 8000 8080 8081 8082 8083 8001 8002 8003
-- echo "org.gradle.console=plain" > gradle.properties
+- echo "org.gradle.console=auto" > gradle.properties
 script:
 - bash gradlew asciidoctor || true # travis / gradle, wtf?!
 - export root=$(pwd)
