@@ -1,4 +1,7 @@
-= Security First {project-name} ({project-version}) image:https://travis-ci.org/daggerok/security-first.svg?branch=master["Build Status", link={github-url}]
+= Security First {project-name} ({project-version})
+////
+image:https://travis-ci.org/daggerok/security-first.svg?branch=master["Build Status", link={github-url}]
+////
 Maksim Kostromin <daggerok@gmail.com>
 {docdatetime}
 :doctype: book
@@ -10,6 +13,11 @@ Maksim Kostromin <daggerok@gmail.com>
 :hide-uri-scheme:
 :revnumber: {project-version}
 :example-caption!:
+
+Travis CI status:
+ifdef::backend-html5[image:https://travis-ci.org/daggerok/security-first.svg?branch=master["Build Status", link={github-url}]]
+
+ifdef::backend-html5[link:./index.pdf["Documentation in PFD format"]]
 
 == Introduction
 
