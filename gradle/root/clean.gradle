@@ -1,10 +1,8 @@
-import org.apache.tools.ant.taskdefs.condition.Os
-
 allprojects {
   apply plugin: "base"
 
   clean.doFirst {
-    Os.isFamily(Os.FAMILY_WINDOWS) ? [] : [project.file(".gradle")] + [
+    [
         project.buildDir,
         project.file("out"),
         project.file("bin"),

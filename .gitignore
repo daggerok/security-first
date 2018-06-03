@@ -3,28 +3,13 @@
 
 ### Gradle / Maven ###
 .gradle/
-**/build/**
-**/target/**
+/build/
+*/build/*
 
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
+/out/
 **/out/**
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/

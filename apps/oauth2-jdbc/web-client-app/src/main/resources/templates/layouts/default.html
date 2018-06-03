@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en"
+      class="z-depth-0"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <meta name="description" content="Security First"/>
+  <meta name="author" content="Maksim Kostormin <daggerok@gmail.com>"/>
+
+  <link rel="stylesheet" th:href="@{/webjars/material-design-icons/3.0.1/material-icons.css}"
+        href="/webjars/material-design-icons/3.0.1/material-icons.css">
+  <link rel="stylesheet" th:href="@{/webjars/materializecss/0.100.2/css/materialize.min.css}"
+        href="/webjars/materializecss/0.100.2/css/materialize.css">
+  <link rel="stylesheet" th:href="@{/app/styles.css}" href="/app/styles.css">
+
+  <link rel="shortcut icon" th:href="@{/favicon.ico}" href="/favicon.ico" type="image/x-icon">
+
+  <title>Security First</title>
+</head>
+
+<body>
+
+<div class="navbar-fixed">
+  <nav>
+    <div class="nav-wrapper">
+      <!--<input type="hidden" id="csrf_token" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}"/>-->
+    </div>
+  </nav>
+</div>
+
+<div class="container-fluid">
+  <main layout:fragment="main">
+    site content...
+  </main>
+</div>
+
+<script th:src="@{/webjars/jquery/3.3.1-1/jquery.min.js}"
+        src="/webjars/jquery/3.3.1-1/jquery.js"></script>
+<script th:src="@{/webjars/materializecss/0.100.2/js/materialize.min.js}"
+        src="/webjars/materializecss/0.100.2/js/materialize.js"></script>
+<script th:src="@{/app/main.js}" src="/app/main.js"></script>
+
+</body>
+</html>

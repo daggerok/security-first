@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+
+<main layout:fragment="main">
+
+  <h3>Oauth2 JDBC Client Web App</h3>
+
+  <div th:fragment="ololo" th:remove="tag">
+    <div id="app">
+      <pre id="secured-content"></pre>
+      <input id="client-id" type="text" placeholder="enter client id"/>
+      <input id="client-secret" type="password" placeholder="enter client secret"/>
+      <button id="obtain-token-btn" class="btn btn-large waves-ripple">obtain token</button>
+      <button id="obtain-data-btn" class="btn btn-large waves-ripple hide">obtain data</button>
+    </div>
+  </div>
+
+</main>

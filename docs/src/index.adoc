@@ -33,5 +33,6 @@ seen and used in java.
 
 == JDBC
 
-include::../../apps/jdbc-oauth2-auth-server/README.adoc[]
-include::../../apps/jdbc-oauth2-resource-server/README.adoc[]
+include::../../apps/oauth2-jdbc/auth-server/README.adoc[]
+include::../../apps/oauth2-jdbc/resource-server/README.adoc[]
+include::../../apps/oauth2-jdbc/web-client-app/README.adoc[]

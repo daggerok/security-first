@@ -16,6 +16,7 @@ buildscript {
     jqeuryVersion = '3.3.1-1'
     materializeCssVersion = '0.100.2'
     materialDesignIconsVersion = '3.0.1'
+    whatwgFetchVersion = '0.0.33'
 
     phantomjsDriverVersion = '1.4.4'
     seleniumDriverVersion = '3.12.0'
@@ -29,8 +30,6 @@ buildscript {
 
     asciidoctorjPdfVersion = '1.5.0-alpha.15'
   }
-
-  apply from: "$project.rootDir/gradle/root/repositories.gradle"
 
   dependencies {
     classpath("org.asciidoctor:asciidoctorj-pdf:$asciidoctorjPdfVersion")

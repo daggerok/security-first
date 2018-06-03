@@ -1,6 +1,14 @@
 allprojects {
+  buildscript {
+    repositories {
+      //mavenLocal()
+      mavenCentral()
+      jcenter()
+      maven { url 'https://repo.spring.io/libs-milestone' }
+    }
+  }
   repositories {
-    mavenLocal()
+    //mavenLocal()
     mavenCentral()
     jcenter()
     maven { url 'https://repo.spring.io/libs-milestone' }

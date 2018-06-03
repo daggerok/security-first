@@ -1,0 +1,18 @@
+
+////
+:apps:oauth2-jdbc:web-client-app README.adoc
+////
+
+emptiness...
+
+////
+
+---
+links:
+
+- link:https://docs.spring.io/spring-security-oauth2-boot/docs/2.0.1.RELEASE/reference/html5/#common-application-properties[authorization server reference]
+- link:http://www.baeldung.com/rest-api-spring-oauth2-angularjs[get some thought from here...]
+- link:https://github.com/sharmaritesh/oauth2-spring-boot-mongo[auth/resource servers some examples]
+- link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide[Migration guide to spring-boot 2.x]
+
+////

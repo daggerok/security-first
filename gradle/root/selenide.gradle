@@ -16,20 +16,12 @@ dependencies {
 }
 
 static def findAllSelenideSystemProps() {
-  System.properties?.findAll { it.key.startsWith("selenide") } ?: [:]
+  System.properties?.findAll { it.key.contains("selenide") } ?: [:]
 }
 
-final String selenideBrowser = "selenide.browser"
-final String defaultBrowser = "chrome" // "phantomjs"
-
-/**
- * Specify default phantomjs headless browser if no one was specified
- *
- * just for default `./gradlew build` execution
- */
 test {
   systemProperties = findAllSelenideSystemProps() + [
-      "selenide.browser": System.getProperty(selenideBrowser, defaultBrowser)
+      "selenide.browser": System.getProperty("selenide.browser", "chrome")
   ]
 }
 
@@ -44,7 +36,7 @@ test {
 ["firefox", "chrome", "phantomjs"].each { taskName ->
   Task e2eTestBrowserSelectorTask = tasks.create(name: taskName) {
     def systemProps = findAllSelenideSystemProps()
-    systemProps["$selenideBrowser"] = taskName
+    systemProps["selenide.browser"] = taskName
 
     doFirst {
       test {

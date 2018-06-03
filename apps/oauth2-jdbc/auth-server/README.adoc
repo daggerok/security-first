@@ -1,0 +1,154 @@
+
+////
+:apps:oauth2-jdbc:auth-server README.adoc
+////
+
+=== authorization server
+
+Let's start with link:{github-url}/tree/master/apps/jdbc-oauth2-auth-server/[building `jdbc-oauth2-auth-server`]
+
+.build, run
+[source,bash]
+----
+./gradlew clean :apps:jd-o-a-s:bootRun
+----
+
+.obtain token
+[source,bash]
+----
+http -a clientId:secret \
+     --form post :8001/oauth/token \
+     grant_type=password \
+     username=usr \
+     password=pwd
+
+# http -a clientId:secret --form post :8001/oauth/token grant_type=password username=usr password=pwd
+----
+
+.output
+[source,json]
+----
+{
+    "access_token": "aa3d78ea-ac9a-4a37-9b8c-3d31b6abfe15",
+    "expires_in": 43199,
+    "refresh_token": "09ae7996-719f-4e24-9389-469f90761853",
+    "scope": "read",
+    "token_type": "bearer"
+}
+----
+
+.check token
+[source,bash]
+----
+http -a clientId:secret \
+     --form post :8001/oauth/check_token \
+     grant_type=implicit \
+     token=aa3d78ea-ac9a-4a37-9b8c-3d31b6abfe15
+
+# http -a clientId:secret --form post :8001/oauth/check_token grant_type=implicit token=aa3d78ea-ac9a-4a37-9b8c-3d31b6abfe15
+----
+
+.output
+[source,json]
+----
+{
+    "active": true,
+    "authorities": [
+        "ROLE_ADMIN",
+        "ADMIN",
+        "USER",
+        "ROLE_USER"
+    ],
+    "client_id": "passwordClientId",
+    "exp": 1528017060,
+    "scope": [
+        "read"
+    ],
+    "user_name": "usr"
+}
+----
+
+=== implementation
+
+. link:./#provide-database[provide database]
+  .. link:./#DataSourceConfig[`DataSourceConfig`]
+  .. link:./#application-h2.yaml[`src/main/resources/application-h2.yaml`]
+  .. link:./#schema-h2.sql[`src/main/resources/schema-h2.sql`]
+. provide UserDetailsService (mocked in our case for simplicity: link:./#JdbcUserDetailsService[`JdbcUserDetailsService`)]
+. after you have UserDetailsService, you can create link:./#AuthenticationManagerConfig[`AuthenticationManagerConfig`]
+. finally you can configure link:./#JdbcOauth2AuthServerConfig[`JdbcOauth2AuthServerConfig`]
+. and of course, do not forget about password encoder: link:./#PasswordEncoderConfig[`PasswordEncoderConfig`]
+
+==== provide database
+
+[[application-h2.yaml]]
+
+.application-h2.yaml
+[source,yaml]
+----
+include::./src/main/resources/application-h2.yaml[]
+----
+
+[[DataSourceConfig]]
+
+.application-h2.yaml
+[source,java]
+----
+include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServer.java[tags=datasource-initializer]
+----
+
+[[schema-h2.sql]]
+
+.schema-h2.sql
+[source,sql]
+----
+include::./src/main/resources/schema-h2.sql[]
+----
+
+==== jdbc user details service
+
+[[JdbcUserDetailsService]]
+
+.JdbcUserDetailsService
+[source,java]
+----
+include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServer.java[tags=jdbc-user-details-service]
+----
+
+==== authentication manager config
+
+[[AuthenticationManagerConfig]]
+
+.AuthenticationManagerConfig
+[source,java]
+----
+include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServer.java[tags=authentication-manager-config]
+----
+
+==== jdbc oauth2 auth server config
+
+[[JdbcOauth2AuthServerConfig]]
+
+.JdbcOauth2AuthServerConfig
+[source,java]
+----
+include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServer.java[tags=jdbc-oauth2-auth-server-config]
+----
+
+==== password encoder config
+
+[[PasswordEncoderConfig]]
+
+.PasswordEncoderConfig
+[source,java]
+----
+include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServer.java[tags=password-encoder]
+----
+
+---
+links:
+
+- link:https://docs.spring.io/spring-security-oauth2-boot/docs/2.0.1.RELEASE/reference/html5/#common-application-properties[authorization server reference]
+- link:http://www.baeldung.com/rest-api-spring-oauth2-angularjs[get some thought from here...]
+- link:https://github.com/sharmaritesh/oauth2-spring-boot-mongo[auth/resource servers some examples]
+- link:https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide[Migration guide to spring-boot 2.x]

@@ -1,0 +1,16 @@
+dependencies {
+
+  [
+      ':modules:props:app',
+      ':modules:props:clients',
+
+  ].each { String projectPath ->
+
+    implementation project(projectPath)
+    compileOnly project(projectPath)
+    annotationProcessor project(projectPath)
+  }
+
+  apply from: "$rootDir/gradle/h2-jdbc.gradle"
+  apply from: "$rootDir/gradle/oauth2.gradle"
+}

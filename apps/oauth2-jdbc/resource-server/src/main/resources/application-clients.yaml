@@ -1,0 +1,4 @@
+clients:
+  resource-app-client:
+    clientId: resourceAppClientId
+    secret: resourceAppClientSecret

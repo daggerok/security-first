@@ -1,16 +1,18 @@
 rootProject.name = 'security-first'
 
-include ':apps:jdbc-oauth2-auth-server'
-include ':apps:jdbc-oauth2-resource-server'
+include ':apps:oauth2-jdbc:auth-server'
+include ':apps:oauth2-jdbc:resource-server'
+include ':apps:oauth2-jdbc:web-client-app'
 
-include ':apps:jwt-oauth2-auth-server'
+/*
+include ':apps:garbage:jwt-oauth2-auth-server'
 
-include ':apps:monolith-mvc-web-app'
-include ':apps:monolith-webflux-rest-app'
-include ':apps:monolith-webflux-web-app'
+include ':apps:garbage:monolith-mvc-web-app'
+include ':apps:garbage:monolith-webflux-rest-app'
+include ':apps:garbage:monolith-webflux-web-app'
+*/
 
-include ':modules:props'
-include ':modules:props1'
-include ':modules:props2'
+include ':modules:props:app'
+include ':modules:props:clients'
 
 include ':docs'

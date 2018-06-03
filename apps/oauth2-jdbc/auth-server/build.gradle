@@ -1,0 +1,26 @@
+dependencies {
+
+  [
+      ':modules:props:clients',
+
+  ].each {
+    implementation project(it)
+    compileOnly project(it)
+    annotationProcessor project(it)
+  }
+
+  apply from: "$rootDir/gradle/h2-jdbc.gradle"
+  apply from: "$rootDir/gradle/oauth2.gradle"
+}
+
+/*
+task libJar(type: Jar, dependsOn:[
+    ':modules:props:build',
+]) {
+  from files {
+    project(':modules:props').sourceSets.main.output.classesDir
+  }
+  //from files( { project(':processor').sourceSets.main.output.resourcesDir } )
+  baseName "lib-$project.name"
+}
+*/

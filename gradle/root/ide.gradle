@@ -10,6 +10,7 @@ subprojects*.apply plugin: "cn.bestwu.propdeps-idea"
 
 idea {
   module {
+    downloadJavadoc = false
     downloadSources = true
   }
 }
@@ -20,6 +21,7 @@ subprojects.any().apply plugin: "cn.bestwu.propdeps-eclipse"
 
 eclipse {
   classpath {
+    downloadJavadoc = true
     downloadSources = true
   }
 }

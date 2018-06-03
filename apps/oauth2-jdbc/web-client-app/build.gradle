@@ -1,0 +1,22 @@
+dependencies {
+
+  [
+      ':modules:props:app'
+
+  ].each {
+
+    implementation project(it)
+    compileOnly project(it)
+    annotationProcessor project(it)
+  }
+
+  compile 'org.thymeleaf:thymeleaf-spring5'
+  compile 'org.thymeleaf.extras:thymeleaf-extras-java8time'
+  compile 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+  compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+  compile "org.webjars:jquery:$jqeuryVersion"
+  compile "org.webjars:material-design-icons:$materialDesignIconsVersion"
+  compile "org.webjars:materializecss:$materializeCssVersion"
+  compile "org.webjars.npm:types__whatwg-fetch:$whatwgFetchVersion"
+}

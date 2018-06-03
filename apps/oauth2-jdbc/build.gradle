@@ -1,0 +1,22 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+subprojects {
+  apply from: "$rootDir/gradle/playground.gradle"
+  apply from: "$rootDir/gradle/spring-boot.gradle"
+
+  dependencies {
+    compile "io.vavr:vavr:$vavrVersion"
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'com.fasterxml.jackson.module:jackson-module-kotlin'
+
+    testImplementation 'io.projectreactor:reactor-test'
+    //implementation('org.springframework.boot:spring-boot-starter-security'
+    //testImplementation 'org.springframework.security:spring-security-test'
+  }
+
+  plugins.withType(SpringBootPlugin) {
+    bootJar {
+      launchScript()
+    }
+  }
+}

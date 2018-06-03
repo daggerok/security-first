@@ -1,0 +1,18 @@
+clients:
+  resource-app-client:
+    clientId: resourceAppClientId
+    secret: resourceAppClientSecret
+    authorizedGrantTypes:
+    - implicit
+    scopes:
+    - read
+    autoApprove: true
+  password-client:
+    clientId: clientId
+    secret: secret
+    authorizedGrantTypes:
+    - authorization_code
+    - refresh_token
+    - password
+    scopes:
+    - read
