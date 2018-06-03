@@ -629,10 +629,11 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#remote-token-services">2.4.1. remote token services</a></li>
 </ul>
 </li>
-<li><a href="#resource-server-2">2.5. resource server</a></li>
-<li><a href="#implementation-3">2.6. implementation</a>
+<li><a href="#testing">2.5. testing</a></li>
+<li><a href="#resource-server-2">2.6. resource server</a></li>
+<li><a href="#implementation-3">2.7. implementation</a>
 <ul class="sectlevel3">
-<li><a href="#remote-token-services-2">2.6.1. remote token services</a></li>
+<li><a href="#remote-token-services-2">2.7.1. remote token services</a></li>
 </ul>
 </li>
 </ul>
@@ -694,13 +695,13 @@ seen and used in java.</p>
 <div class="listingblock">
 <div class="title">obtain token</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">http -a passwordClientId:passwordClientSecret \
+<pre class="CodeRay highlight"><code data-lang="bash">http -a clientId:secret \
      --form post :8001/oauth/token \
      grant_type=password \
      username=usr \
      password=pwd
 
-# http -a passwordClientId:passwordClientSecret --form post :8001/oauth/token grant_type=password username=usr password=pwd</code></pre>
+# http -a clientId:secret --form post :8001/oauth/token grant_type=password username=usr password=pwd</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -718,12 +719,12 @@ seen and used in java.</p>
 <div class="listingblock">
 <div class="title">check token</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">http -a passwordClientId:passwordClientSecret \
+<pre class="CodeRay highlight"><code data-lang="bash">http -a clientId:secret \
      --form post :8001/oauth/check_token \
      grant_type=implicit \
      token=aa3d78ea-ac9a-4a37-9b8c-3d31b6abfe15
 
-# http -a passwordClientId:passwordClientSecret --form post :8001/oauth/check_token grant_type=implicit token=aa3d78ea-ac9a-4a37-9b8c-3d31b6abfe15</code></pre>
+# http -a clientId:secret --form post :8001/oauth/check_token grant_type=implicit token=aa3d78ea-ac9a-4a37-9b8c-3d31b6abfe15</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -800,7 +801,18 @@ seen and used in java.</p>
 <div id="DataSourceConfig" class="listingblock">
 <div class="title">application-h2.yaml</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in h2-jdbc/auth-server/README.adoc - include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServerApplication.java[tags=datasource-initializer]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">  <span class="annotation">@Bean</span>
+  <span class="directive">public</span> DataSourceInitializer dataSourceInitializer(<span class="directive">final</span> <span class="predefined-type">DataSource</span> dataSource) {
+    <span class="directive">final</span> DataSourceInitializer initializer = <span class="keyword">new</span> DataSourceInitializer();
+    initializer.setDataSource(dataSource);
+    initializer.setDatabasePopulator(databasePopulator());
+    <span class="keyword">return</span> initializer;
+  }
+
+  <span class="directive">private</span> DatabasePopulator databasePopulator() {
+    <span class="directive">final</span> ClassPathResource schema = <span class="keyword">new</span> ClassPathResource(<span class="string"><span class="delimiter">&quot;</span><span class="content">/schema-h2.sql</span><span class="delimiter">&quot;</span></span>, DataSourceConfig.class.getClassLoader());
+    <span class="keyword">return</span> <span class="keyword">new</span> ResourceDatabasePopulator(<span class="predefined-constant">false</span>, <span class="predefined-constant">true</span>, UTF_8.displayName(), schema);
+  }</code></pre>
 </div>
 </div>
 <div id="schema-h2.sql" class="listingblock">
@@ -885,7 +897,27 @@ seen and used in java.</p>
 <div id="JdbcUserDetailsService" class="listingblock">
 <div class="title">JdbcUserDetailsService</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in h2-jdbc/auth-server/README.adoc - include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServerApplication.java[tags=jdbc-user-details-service]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Service</span>
+<span class="annotation">@RequiredArgsConstructor</span>
+<span class="type">class</span> <span class="class">JdbcUserDetailsService</span> <span class="directive">implements</span> UserDetailsService {
+
+  <span class="directive">final</span> PasswordEncoder encoder;
+  <span class="directive">final</span> JdbcTemplate jdbcTemplate;
+
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> UserDetails loadUserByUsername(<span class="predefined-type">String</span> username) <span class="directive">throws</span> UsernameNotFoundException {
+    <span class="keyword">return</span> User
+        .withUsername(<span class="string"><span class="delimiter">&quot;</span><span class="content">usr</span><span class="delimiter">&quot;</span></span>)
+        <span class="comment">//.password(&quot;pwd&quot;)</span>
+        .password(<span class="predefined-constant">null</span> == encoder ? <span class="string"><span class="delimiter">&quot;</span><span class="content">{noop}pwd</span><span class="delimiter">&quot;</span></span> : encoder.encode(<span class="string"><span class="delimiter">&quot;</span><span class="content">pwd</span><span class="delimiter">&quot;</span></span>))
+        .disabled(<span class="predefined-constant">false</span>)
+        .accountExpired(<span class="predefined-constant">false</span>)
+        .accountLocked(<span class="predefined-constant">false</span>)
+        .credentialsExpired(<span class="predefined-constant">false</span>)
+        .authorities(<span class="string"><span class="delimiter">&quot;</span><span class="content">USER</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">ADMIN</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">ROLE_USER</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">ROLE_ADMIN</span><span class="delimiter">&quot;</span></span>)
+        .build();
+  }
+}</code></pre>
 </div>
 </div>
 </div>
@@ -894,7 +926,23 @@ seen and used in java.</p>
 <div id="AuthenticationManagerConfig" class="listingblock">
 <div class="title">AuthenticationManagerConfig</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in h2-jdbc/auth-server/README.adoc - include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServerApplication.java[tags=authentication-manager-config]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Configuration</span>
+<span class="annotation">@RequiredArgsConstructor</span>
+<span class="type">class</span> <span class="class">AuthenticationManagerConfig</span> <span class="directive">extends</span> WebSecurityConfigurerAdapter {
+
+  <span class="directive">final</span> JdbcUserDetailsService userDetailsService;
+
+  <span class="annotation">@Override</span>
+  <span class="directive">protected</span> <span class="type">void</span> configure(AuthenticationManagerBuilder auth) <span class="directive">throws</span> <span class="exception">Exception</span> {
+    auth.userDetailsService(userDetailsService);
+  }
+
+  <span class="annotation">@Bean</span>
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> AuthenticationManager authenticationManagerBean() <span class="directive">throws</span> <span class="exception">Exception</span> {
+    <span class="keyword">return</span> <span class="local-variable">super</span>.authenticationManagerBean();
+  }
+}</code></pre>
 </div>
 </div>
 </div>
@@ -903,7 +951,86 @@ seen and used in java.</p>
 <div id="JdbcOauth2AuthServerConfig" class="listingblock">
 <div class="title">JdbcOauth2AuthServerConfig</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in h2-jdbc/auth-server/README.adoc - include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServerApplication.java[tags=jdbc-oauth2-auth-server-config]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">/**
+ * CORS Filter.
+ *
+ * https://github.com/spring-projects/spring-security-oauth/issues/938#issuecomment-286243307
+ * @Orger(2)
+ * +
+ * @Bean FilterRegistrationBean corsFilter() { ... }
+ */</span>
+<span class="annotation">@Order</span>(<span class="integer">2</span>)
+<span class="annotation">@Configuration</span>
+<span class="annotation">@RequiredArgsConstructor</span>
+<span class="annotation">@EnableAuthorizationServer</span>
+<span class="type">class</span> <span class="class">JdbcOauth2AuthServerConfig</span> <span class="directive">extends</span> AuthorizationServerConfigurerAdapter {
+
+  <span class="directive">final</span> <span class="predefined-type">DataSource</span> dataSource;
+  <span class="directive">final</span> PasswordEncoder encoder;
+  <span class="directive">final</span> ClientsProps clientsProps;
+  <span class="directive">final</span> AuthenticationManager authenticationManager;
+
+  <span class="annotation">@Bean</span>
+  <span class="directive">public</span> TokenStore tokenStore() {
+    <span class="keyword">return</span> <span class="keyword">new</span> JdbcTokenStore(dataSource);
+  }
+
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> <span class="type">void</span> configure(<span class="directive">final</span> ClientDetailsServiceConfigurer clients) <span class="directive">throws</span> <span class="exception">Exception</span> {
+
+    <span class="directive">final</span> Client resourceAppClient = clientsProps.getResourceAppClient();
+    <span class="directive">final</span> Client passwordClient = clientsProps.getPasswordClient();
+
+    clients
+        .jdbc(dataSource)
+          .withClient(resourceAppClient.getClientId())
+            .authorizedGrantTypes(resourceAppClient.getAuthorizedGrantTypes())
+            .secret(resourceAppClient.generateSecret(encoder))
+            .scopes(resourceAppClient.getScopes())
+            .autoApprove(resourceAppClient.isAutoApprove())
+            .and()
+          .withClient(passwordClient.getClientId())
+            .authorizedGrantTypes(passwordClient.getAuthorizedGrantTypes())
+            .secret(passwordClient.generateSecret(encoder))
+            .scopes(passwordClient.getScopes())
+            .autoApprove(passwordClient.isAutoApprove())
+    ;
+  }
+
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> <span class="type">void</span> configure(AuthorizationServerEndpointsConfigurer endpoints) <span class="directive">throws</span> <span class="exception">Exception</span> {
+    endpoints
+        .tokenStore(tokenStore())
+        .authenticationManager(authenticationManager)
+    ;
+  }
+
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> <span class="type">void</span> configure(AuthorizationServerSecurityConfigurer oauthServer) {
+    oauthServer
+        .tokenKeyAccess(<span class="string"><span class="delimiter">&quot;</span><span class="content">permitAll()</span><span class="delimiter">&quot;</span></span>)
+        .checkTokenAccess(<span class="string"><span class="delimiter">&quot;</span><span class="content">isAuthenticated()</span><span class="delimiter">&quot;</span></span>);
+  }
+
+  <span class="annotation">@Bean</span>
+  <span class="directive">public</span> FilterRegistrationBean corsFilter() {
+
+    <span class="directive">final</span> CorsConfiguration config = <span class="keyword">new</span> CorsConfiguration();
+    config.setAllowCredentials(<span class="predefined-constant">true</span>);
+    config.addAllowedOrigin(<span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>);
+    config.addAllowedHeader(<span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>);
+    config.addAllowedMethod(<span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>);
+
+    <span class="directive">final</span> UrlBasedCorsConfigurationSource source = <span class="keyword">new</span> UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration(<span class="string"><span class="delimiter">&quot;</span><span class="content">/**</span><span class="delimiter">&quot;</span></span>, config);
+
+    <span class="directive">final</span> CorsFilter corsFilter = <span class="keyword">new</span> CorsFilter(source);
+    <span class="directive">final</span> FilterRegistrationBean bean = <span class="keyword">new</span> FilterRegistrationBean(corsFilter);
+    bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+
+    <span class="keyword">return</span> bean;
+  }
+}</code></pre>
 </div>
 </div>
 </div>
@@ -912,7 +1039,10 @@ seen and used in java.</p>
 <div id="PasswordEncoderConfig" class="listingblock">
 <div class="title">PasswordEncoderConfig</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in h2-jdbc/auth-server/README.adoc - include::./src/main/java/com/github/daggerok/oauth2authserver/JdbcOauth2AuthServerApplication.java[tags=password-encoder]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">  <span class="annotation">@Bean</span>
+  <span class="directive">public</span> PasswordEncoder encoder() {
+    <span class="keyword">return</span> PasswordEncoderFactories.createDelegatingPasswordEncoder();
+  }</code></pre>
 </div>
 </div>
 <hr>
@@ -945,7 +1075,7 @@ seen and used in java.</p>
 <div class="listingblock">
 <div class="title">build, run and test</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="bash">./gradlew clean :apps:jd-o-r-s:bootRun</code></pre>
+<pre class="CodeRay highlight"><code data-lang="bash">./gradlew :apps:oauth2-jdbc:resource-server:bootRun</code></pre>
 </div>
 </div>
 </div>
@@ -963,13 +1093,87 @@ seen and used in java.</p>
 <div id="RemoteTokenServicesConfig" class="listingblock">
 <div class="title">RemoteTokenServicesConfig</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in h2-jdbc/resource-server/README.adoc - include::./src/main/java/com/github/daggerok/oauth2resourceserver/Oauth2ResourceServerApplication.java[tags=remote-token-services-config]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">  <span class="directive">final</span> AppProps appProps;
+  <span class="directive">final</span> ClientsProps clientsProps;
+
+  <span class="annotation">@Bean</span>
+  <span class="annotation">@Primary</span>
+  <span class="directive">public</span> RemoteTokenServices tokenService() {
+
+    <span class="directive">final</span> <span class="predefined-type">String</span> checkTokenEndpointUrl = format(<span class="string"><span class="delimiter">&quot;</span><span class="content">%s/oauth/check_token</span><span class="delimiter">&quot;</span></span>, appProps.getAuthServerUrl());
+    <span class="directive">final</span> RemoteTokenServices tokenService = <span class="keyword">new</span> RemoteTokenServices();
+    tokenService.setCheckTokenEndpointUrl(checkTokenEndpointUrl);
+    <span class="directive">final</span> ClientsProps.Client client = clientsProps.getResourceAppClient();
+    tokenService.setClientId(client.getClientId());
+    tokenService.setClientSecret(client.getSecret());
+    <span class="keyword">return</span> tokenService;
+  }</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="resource-server-2"><a class="anchor" href="#resource-server-2"></a>2.5. resource server</h3>
+<h3 id="testing"><a class="anchor" href="#testing"></a>2.5. testing</h3>
+<div class="paragraph">
+<p>Let&#8217;s test how clients can access resource-server resources using obtained token from auth-server&#8230;&#8203;.</p>
+</div>
+<div class="listingblock">
+<div class="title">first, clint must obtain active token</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">http -a clientId:secret --form post :8001/oauth/token grant_type=password username=usr password=pwd</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">response ouptu</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">access_token</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">be5caf90-f197-43bf-86e2-cd4560066871</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">expires_in</span><span class="delimiter">&quot;</span></span>: <span class="integer">40917</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">refresh_token</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">4b2991af-6e1b-40cc-ab83-3f0c135d8c12</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">scope</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">read</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">token_type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">bearer</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now client can use received access_token value to query resource-server /</p>
+</div>
+<div class="listingblock">
+<div class="title">test unauthorized forst</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">http :8002/</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">response ouptu</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">error</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">unauthorized</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">error_description</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Full authentication is required to access this resource</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">now let&#8217;s use access_token to get resource-server data</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">http :8002/ Authorization:'Bearer be5caf90-f197-43bf-86e2-cd4560066871'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">response ouptu</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">at</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">2018-06-03T01:20:45.153Z</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">ololo</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">trololo</span><span class="delimiter">&quot;</span></span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Done!</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="resource-server-2"><a class="anchor" href="#resource-server-2"></a>2.6. resource server</h3>
 <div class="paragraph">
 <p>Now we ready to go with <a href="https://github.com/daggerok/security-first/tree/master/apps/jdbc-oauth2-resource-server/">building <code>jdbc-oauth2-resource-server</code></a></p>
 </div>
@@ -981,7 +1185,7 @@ seen and used in java.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="implementation-3"><a class="anchor" href="#implementation-3"></a>2.6. implementation</h3>
+<h3 id="implementation-3"><a class="anchor" href="#implementation-3"></a>2.7. implementation</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -990,11 +1194,11 @@ seen and used in java.</p>
 </ol>
 </div>
 <div class="sect3">
-<h4 id="remote-token-services-2"><a class="anchor" href="#remote-token-services-2"></a>2.6.1. remote token services</h4>
+<h4 id="remote-token-services-2"><a class="anchor" href="#remote-token-services-2"></a>2.7.1. remote token services</h4>
 <div id="RemoteTokenServicesConfig" class="listingblock">
 <div class="title">RemoteTokenServicesConfig</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in h2-jdbc/web-client-app/README.adoc - include::./src/main/java/com/github/daggerok/oauth2resourceserver/Oauth2ResourceServerApplication.java[tags=remote-token-services-config]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in h2-jdbc/web-client-app/README.adoc - include::./src/main/java/com/github/daggerok/oauth2resourceserver/Oauth2ResourceServer.java[tags=remote-token-services-config]</code></pre>
 </div>
 </div>
 </div>
